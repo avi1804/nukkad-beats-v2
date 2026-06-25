@@ -1,0 +1,294 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String           @id @default(uuid())
+  fullName            String
+  email               String           @unique
+  phone               String?
+  passwordHash        String?
+  authProvider        AuthProvider     @default(EMAIL)
+  role                Role             @default(USER)
+  profileImage        String?
+  isVerified          Boolean          @default(false)
+  isBlocked           Boolean          @default(false)
+  deletedAt           DateTime?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  failedLoginAttempts Int              @default(0)
+  lockoutUntil        DateTime?
+  bookings            Booking[]
+  cart                Cart?
+  notifications       Notification[]
+  orders              Order[]
+  passwordResets      PasswordReset[]
+  sessions            Session[]
+  preferences         UserPreferences?
+
+  @@index([email])
+}
+
+model Studio {
+  id           String        @id @default(uuid())
+  name         String
+  description  String?
+  capacity     Int
+  pricePerHour Float
+  image        String?
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  bookings     Booking[]
+  bookingSlots BookingSlot[]
+
+  @@index([isActive])
+}
+
+model Booking {
+  id               String        @id @default(uuid())
+  userId           String
+  studioId         String
+  bookingDate      DateTime
+  startTime        String
+  endTime          String
+  guestCount       Int
+  notes            String?
+  bookingStatus    BookingStatus @default(PENDING)
+  paymentStatus    PaymentStatus @default(PENDING)
+  paymentMethod    PaymentMethod
+  totalAmount      Float
+  bookingSource    BookingSource @default(ONLINE)
+  bookingReference String        @unique
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  studio           Studio        @relation(fields: [studioId], references: [id])
+  user             User          @relation(fields: [userId], references: [id])
+  payment          Payment?
+  orders           Order[]
+
+  @@index([userId])
+  @@index([studioId])
+  @@index([bookingDate])
+  @@index([bookingReference])
+}
+
+model BookingSlot {
+  id        String   @id @default(uuid())
+  studioId  String
+  date      DateTime
+  startTime String
+  endTime   String
+  isBooked  Boolean  @default(false)
+  studio    Studio   @relation(fields: [studioId], references: [id])
+
+  @@unique([studioId, date, startTime, endTime])
+  @@index([studioId, date])
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  slug     String    @unique
+  image    String?
+  products Product[]
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  categoryId  String
+  name        String
+  description String?
+  image       String?
+  price       Float
+  rating      Float       @default(0)
+  isAvailable Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  category    Category    @relation(fields: [categoryId], references: [id])
+
+  @@index([categoryId])
+  @@index([isAvailable])
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  cartId    String
+  productId String
+  quantity  Int
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
+}
+
+model Order {
+  id             String        @id @default(uuid())
+  userId         String
+  totalAmount    Float
+  paymentMethod  PaymentMethod
+  paymentStatus  PaymentStatus @default(PENDING)
+  orderStatus    OrderStatus   @default(PENDING)
+  orderReference String        @unique
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  user           User          @relation(fields: [userId], references: [id])
+  items          OrderItem[]
+  payment        Payment?
+  bookingId      String?
+  booking        Booking?      @relation(fields: [bookingId], references: [id])
+
+  @@index([userId])
+  @@index([bookingId])
+  @@index([orderReference])
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  bookingId         String?       @unique
+  orderId           String?       @unique
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  amount            Float
+  paymentMethod     PaymentMethod
+  paymentStatus     PaymentStatus @default(PENDING)
+  transactionDate   DateTime      @default(now())
+  booking           Booking?      @relation(fields: [bookingId], references: [id])
+  order             Order?        @relation(fields: [orderId], references: [id])
+
+  @@index([razorpayOrderId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model ContactInquiry {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model UserPreferences {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  bookingEmails     Boolean  @default(true)
+  promotionalEmails Boolean  @default(false)
+  whatsappReminders Boolean  @default(true)
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id         String   @id @default(uuid())
+  userId     String
+  device     String
+  browser    String
+  location   String
+  ipAddress  String
+  lastActive DateTime @default(now())
+  isCurrent  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model PasswordReset {
+  id           String   @id @default(uuid())
+  userId       String
+  hashedOTP    String
+  expiresAt    DateTime
+  attemptCount Int      @default(0)
+  isUsed       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PENDING_CONFIRMATION
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  ONLINE
+  OFFLINE
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+enum BookingSource {
+  ONLINE
+  ADMIN_MANUAL
+}
