@@ -1,6 +1,5 @@
 import cloudinary from '../config/cloudinary';
 import fs from 'fs';
-import path from 'path';
 
 export class UploadService {
   /**
