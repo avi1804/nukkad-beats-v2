@@ -8,6 +8,13 @@ import { useCartStore } from "@/store/useCartStore";
 import toast from "react-hot-toast";
 import { useBookingStore } from "@/store/useBookingStore";
 import { useRouter } from "next/navigation";
+import { useSocket } from "@/hooks/useSocket";
+import { 
+  PRODUCT_ADDED, 
+  PRODUCT_UPDATED, 
+  PRODUCT_DELETED, 
+  PRODUCT_AVAILABILITY_CHANGED 
+} from "@/socket/events";
 
 type CafeCategory = "all" | "beverages" | "snacks" | "fast-food" | "desserts";
 
@@ -18,14 +25,11 @@ export default function Cafe() {
   const { activeBookingId, setActiveBookingId } = useBookingStore();
   const router = useRouter();
 
-  useEffect(() => {
+  const fetchProducts = () => {
     productApi.getProducts()
       .then(res => {
-        // The backend returns a record grouped by category name e.g. { "Snacks": [...], "Fast Food": [...] }
-        // We will flatten it to a single array for easier filtering that matches the old logic
         const grouped = res.data;
         const allProducts = Object.values(grouped).flat() as any[];
-        // Sort by highest rating first
         allProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         setProducts(allProducts);
       })
@@ -35,7 +39,16 @@ export default function Cafe() {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchProducts();
   }, []);
+
+  useSocket(PRODUCT_ADDED, fetchProducts);
+  useSocket(PRODUCT_UPDATED, fetchProducts);
+  useSocket(PRODUCT_DELETED, fetchProducts);
+  useSocket(PRODUCT_AVAILABILITY_CHANGED, fetchProducts);
 
   const filteredItems = products.filter(
     (item) => filter === "all" || (item.category?.slug && item.category.slug === filter)

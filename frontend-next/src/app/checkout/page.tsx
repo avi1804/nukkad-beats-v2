@@ -21,16 +21,17 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<"ONLINE" | "OFFLINE">("ONLINE");
   const [isProcessing, setIsProcessing] = useState(false);
   const [agreedToRefunds, setAgreedToRefunds] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const subtotal = getSubtotal();
   const total = subtotal;
 
   useEffect(() => {
-    // If cart is empty, redirect to home
-    if (items.length === 0) {
+    // If cart is empty and we haven't just placed an order, redirect to home
+    if (items.length === 0 && !orderPlaced) {
       router.push("/");
     }
-  }, [items, router]);
+  }, [items, router, orderPlaced]);
 
   const handlePlaceOrder = async () => {
     if (!isLoggedIn) {
@@ -57,7 +58,8 @@ export default function CheckoutPage() {
 
       const res = await orderApi.checkout({ paymentMethod, bookingId: activeBookingId || undefined });
       
-      clearCart();
+      setOrderPlaced(true);
+      useCartStore.getState().clearCart();
 
       toast.success(activeBookingId ? "Food added to your booking! Redirecting..." : "Order placed successfully! Redirecting to payment...", {
         style: {

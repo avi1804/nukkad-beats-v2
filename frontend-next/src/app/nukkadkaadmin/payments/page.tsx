@@ -5,6 +5,8 @@ import { api } from "../../../lib/api";
 import { toast } from "react-hot-toast";
 import { CreditCard, CheckCircle, Clock, XCircle, Search, Filter } from "lucide-react";
 import PaymentDrawer from "../../../components/admin/PaymentDrawer";
+import { useSocket } from "../../../hooks/useSocket";
+import { PAYMENT_STATUS_UPDATED, PAYMENT_VERIFIED } from "../../../socket/events";
 
 export default function AdminPayments() {
   const [payments, setPayments] = useState<any[]>([]);
@@ -73,6 +75,14 @@ export default function AdminPayments() {
   useEffect(() => {
     fetchPayments();
   }, []);
+
+  useSocket(PAYMENT_STATUS_UPDATED, () => {
+    fetchPayments();
+  });
+
+  useSocket(PAYMENT_VERIFIED, () => {
+    fetchPayments();
+  });
 
   // Compute Stats
   const stats = useMemo(() => {

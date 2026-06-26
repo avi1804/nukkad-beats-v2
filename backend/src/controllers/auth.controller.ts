@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../services/AuthService';
+import { TokenService } from '../services/TokenService';
+import { emitEvent } from '../socket/emitter';
+import { SESSION_INVALIDATED } from '../socket/events';
 
 const setAuthCookies = (res: Response, accessToken: string, refreshToken: string) => {
   const isProd = process.env.NODE_ENV === 'production';
@@ -17,7 +20,16 @@ const setAuthCookies = (res: Response, accessToken: string, refreshToken: string
   });
 };
 
-export const logout = async (_req: Request, res: Response): Promise<void> => {
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  const token = req.cookies?.accessToken || req.headers.authorization?.split(' ')[1];
+  if (token) {
+    try {
+      const payload = TokenService.verifyToken(token);
+      emitEvent(`user:${payload.userId}`, SESSION_INVALIDATED, {});
+    } catch (e) {
+      // ignore token parse errors during logout
+    }
+  }
   res.clearCookie('accessToken');
   res.clearCookie('refreshToken');
   res.status(200).json({ message: 'Logged out successfully' });

@@ -6,6 +6,8 @@ import { orderApi } from "@/lib/api";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSocket } from "@/hooks/useSocket";
+import { ORDER_STATUS_UPDATED } from "@/socket/events";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -34,12 +36,25 @@ export default function MyOrdersPage() {
   }, []);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     if (!isLoggedIn) {
-      router.push("/");
-      return;
+      // Small delay to allow Zustand persist to hydrate
+      timeout = setTimeout(() => {
+        router.push("/");
+      }, 100);
+    } else {
+      fetchOrders();
     }
-    fetchOrders();
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
   }, [isLoggedIn, router, fetchOrders]);
+
+  useSocket(ORDER_STATUS_UPDATED, ({ orderId, status }) => {
+    setOrders((prev) =>
+      prev.map((o) => (o.id === orderId ? { ...o, orderStatus: status } : o))
+    );
+  });
 
   const filteredOrders = orders.filter((order) => {
     if (activeTab === "all") return true;

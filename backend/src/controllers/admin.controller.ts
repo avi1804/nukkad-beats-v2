@@ -3,6 +3,8 @@ import { prisma } from '../utils/prisma';
 import { PaymentStatus, Role } from '@prisma/client';
 import { EmailService } from '../services/EmailService';
 import { WhatsAppService } from '../services/WhatsAppService';
+import { emitEvent } from '../socket/emitter';
+import { PAYMENT_STATUS_UPDATED, PAYMENT_VERIFIED, DASHBOARD_STATS_UPDATED, BOOKING_STATUS_UPDATED, ORDER_STATUS_UPDATED } from '../socket/events';
 
 export const getDashboardStats = async (_req: Request, res: Response) => {
   try {
@@ -14,12 +16,12 @@ export const getDashboardStats = async (_req: Request, res: Response) => {
     // Revenue calculations (using Booking and Order tables)
     const paidBookings = await prisma.booking.findMany({
       where: { paymentStatus: PaymentStatus.PAID },
-      select: { totalAmount: true, updatedAt: true }
+      select: { totalAmount: true, createdAt: true }
     });
 
     const paidOrders = await prisma.order.findMany({
       where: { paymentStatus: PaymentStatus.PAID },
-      select: { totalAmount: true, updatedAt: true }
+      select: { totalAmount: true, createdAt: true }
     });
 
     let studioRevenue = 0;
@@ -33,14 +35,14 @@ export const getDashboardStats = async (_req: Request, res: Response) => {
 
     paidBookings.forEach(b => {
       studioRevenue += b.totalAmount;
-      const txDate = new Date(b.updatedAt);
+      const txDate = new Date(b.createdAt);
       if (txDate >= todayStart) todayRevenue += b.totalAmount;
       if (txDate >= monthStart) monthlyRevenue += b.totalAmount;
     });
 
     paidOrders.forEach(o => {
       cafeRevenue += o.totalAmount;
-      const txDate = new Date(o.updatedAt);
+      const txDate = new Date(o.createdAt);
       if (txDate >= todayStart) todayRevenue += o.totalAmount;
       if (txDate >= monthStart) monthlyRevenue += o.totalAmount;
     });
@@ -88,7 +90,7 @@ export const getDashboardCharts = async (_req: Request, res: Response) => {
       const dayBookings = await prisma.booking.findMany({
         where: {
           paymentStatus: PaymentStatus.PAID,
-          updatedAt: { gte: date, lt: nextDate }
+          createdAt: { gte: date, lt: nextDate }
         },
         select: { totalAmount: true }
       });
@@ -96,7 +98,7 @@ export const getDashboardCharts = async (_req: Request, res: Response) => {
       const dayOrders = await prisma.order.findMany({
         where: {
           paymentStatus: PaymentStatus.PAID,
-          updatedAt: { gte: date, lt: nextDate }
+          createdAt: { gte: date, lt: nextDate }
         },
         select: { totalAmount: true }
       });
@@ -165,6 +167,16 @@ export const updatePaymentStatus = async (req: Request, res: Response): Promise<
         }
       }
 
+      // Real-time Socket events
+      if (action === 'verify') {
+        emitEvent(`user:${updated.userId}`, PAYMENT_VERIFIED, { bookingId: id, status: newPaymentStatus, updatedAt: new Date() });
+        emitEvent('role:admin', DASHBOARD_STATS_UPDATED, { timestamp: new Date() });
+      } else {
+        emitEvent(`user:${updated.userId}`, PAYMENT_STATUS_UPDATED, { bookingId: id, status: newPaymentStatus, updatedAt: new Date() });
+      }
+      emitEvent(`user:${updated.userId}`, BOOKING_STATUS_UPDATED, { bookingId: id, status: newBookingStatus, updatedAt: new Date() });
+      emitEvent('role:admin', BOOKING_STATUS_UPDATED, { bookingId: id, status: newBookingStatus, updatedAt: new Date() });
+
       return res.json({ success: true, data: updated });
     } else if (type === 'order') {
       const order = await prisma.order.findUnique({ where: { id } });
@@ -193,6 +205,16 @@ export const updatePaymentStatus = async (req: Request, res: Response): Promise<
           console.error("Failed to send verification notifications:", e);
         }
       }
+
+      // Real-time Socket events
+      if (action === 'verify') {
+        emitEvent(`user:${updated.userId}`, PAYMENT_VERIFIED, { orderId: id, status: newPaymentStatus, updatedAt: new Date() });
+        emitEvent('role:admin', DASHBOARD_STATS_UPDATED, { timestamp: new Date() });
+      } else {
+        emitEvent(`user:${updated.userId}`, PAYMENT_STATUS_UPDATED, { orderId: id, status: newPaymentStatus, updatedAt: new Date() });
+      }
+      emitEvent(`user:${updated.userId}`, ORDER_STATUS_UPDATED, { orderId: id, status: newOrderStatus, updatedAt: new Date() });
+      emitEvent('role:admin', ORDER_STATUS_UPDATED, { orderId: id, status: newOrderStatus, updatedAt: new Date() });
 
       return res.json({ success: true, data: updated });
     } else {

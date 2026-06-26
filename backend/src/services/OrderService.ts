@@ -4,6 +4,8 @@ import { CartService } from './CartService';
 import { v4 as uuidv4 } from 'uuid';
 import { EmailService } from './EmailService';
 import { WhatsAppService } from './WhatsAppService';
+import { emitEvent } from '../socket/emitter';
+import { ORDER_NEW, ORDER_STATUS_UPDATED, NOTIFICATION_NEW } from '../socket/events';
 
 export class OrderService {
   static async checkout(userId: string, data: any): Promise<Order> {
@@ -49,8 +51,21 @@ export class OrderService {
         }
       });
 
+      // Clear the user's cart
+      await tx.cartItem.deleteMany({
+        where: { cartId: cartEntity.id }
+      });
+
       return newOrder;
     });
+
+    // Real-time Socket sync
+    emitEvent('role:kitchen', ORDER_NEW, order);
+    emitEvent('role:admin', ORDER_NEW, order);
+    emitEvent(`user:${userId}`, ORDER_NEW, order);
+
+    // Notification Event
+    emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Order Placed', message: `Your order ${order.orderReference} has been placed.`, type: 'info', link: '/my-orders' });
 
     // Send confirmation email (async, non-blocking)
     EmailService.sendOrderConfirmation(order.user, order);
@@ -69,15 +84,33 @@ export class OrderService {
     // Simulate real-world order progression for demo purposes
     // This allows users to track their order live on the frontend without needing an admin dashboard
     setTimeout(async () => {
-      try { await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'PREPARING' } }); } catch (e) {}
+      try { 
+        await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'PREPARING' } }); 
+        emitEvent(`user:${userId}`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'PREPARING', updatedAt: new Date() });
+        emitEvent(`role:kitchen`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'PREPARING', updatedAt: new Date() });
+        emitEvent(`role:admin`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'PREPARING', updatedAt: new Date() });
+        emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Order Update', message: `Your order is now being prepared.`, type: 'info' });
+      } catch (e) {}
     }, 10000); // 10s to PREPARING
 
     setTimeout(async () => {
-      try { await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'READY' } }); } catch (e) {}
+      try { 
+        await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'READY' } }); 
+        emitEvent(`user:${userId}`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'READY', updatedAt: new Date() });
+        emitEvent(`role:kitchen`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'READY', updatedAt: new Date() });
+        emitEvent(`role:admin`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'READY', updatedAt: new Date() });
+        emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Order Ready', message: `Your order is ready!`, type: 'success' });
+      } catch (e) {}
     }, 20000); // 20s to READY
 
     setTimeout(async () => {
-      try { await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'DELIVERED' } }); } catch (e) {}
+      try { 
+        await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'DELIVERED' } }); 
+        emitEvent(`user:${userId}`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'DELIVERED', updatedAt: new Date() });
+        emitEvent(`role:kitchen`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'DELIVERED', updatedAt: new Date() });
+        emitEvent(`role:admin`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'DELIVERED', updatedAt: new Date() });
+        emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Order Delivered', message: `Enjoy your meal!`, type: 'success' });
+      } catch (e) {}
     }, 30000); // 30s to DELIVERED
 
     return order;
@@ -135,6 +168,12 @@ export class OrderService {
     // As per the optional requirement, send updates to Admin
     // Actually, I'll just leave it out to keep notifications noise down, unless requested.
     // Wait, the prompt says "Optional support: Preparing, Ready... Send updates to Admin". I'll skip it for now to avoid modifying WhatsAppService again, but actually I will just add the comment.
+
+    // Real-time socket sync
+    emitEvent(`user:${order.userId}`, ORDER_STATUS_UPDATED, { orderId: id, status, updatedAt: new Date() });
+    emitEvent(`role:kitchen`, ORDER_STATUS_UPDATED, { orderId: id, status, updatedAt: new Date() });
+    emitEvent(`role:admin`, ORDER_STATUS_UPDATED, { orderId: id, status, updatedAt: new Date() });
+    emitEvent(`user:${order.userId}`, NOTIFICATION_NEW, { userId: order.userId, title: 'Order Update', message: `Your order status changed to ${status}.`, type: 'info' });
 
     return updatedOrder;
   }

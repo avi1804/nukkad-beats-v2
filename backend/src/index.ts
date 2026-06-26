@@ -19,6 +19,7 @@ import uploadRoutes from './routes/upload.routes';
 import adminRoutes from './routes/admin.routes';
 import { initializeDatabase } from './utils/initDb';
 import { createServer } from 'http';
+import { initSocketServer } from './socket';
 
 // Load environment variables
 dotenv.config();
@@ -28,6 +29,9 @@ const PORT = process.env.PORT || 5000;
 
 // Create HTTP Server
 const httpServer = createServer(app);
+
+// Initialize Socket.IO Server
+initSocketServer(httpServer);
 
 // Security middleware
 app.use(helmet({
@@ -133,53 +137,42 @@ const startServer = async (startPort: number) => {
     console.log('✅ Database connected');
     console.log('✅ Email service initialized');
     
-    let currentPort = startPort;
-    let activeServer: any = null;
-
-    const tryListen = (port: number) => {
+    // Probe for an available port using a temporary net server
+    const findAvailablePort = (port: number, maxPort: number): Promise<number> => {
       return new Promise((resolve, reject) => {
-        console.log(`Attempting to start server on port ${port}...`);
-        const srv = httpServer.listen(port)
-          .once('error', (err: any) => {
-            if (err.code === 'EADDRINUSE') {
-              console.error(`Port ${port} is already occupied.`);
-              resolve(false);
-            } else {
-              reject(err);
-            }
-          })
-          .once('listening', () => {
-            // Note: activeServer is used to track if it started successfully.
-            activeServer = srv;
-            console.log(`✅ Server running on port ${port}`);
-            resolve(true);
-          });
+        if (port > maxPort) {
+          return reject(new Error('No available port found'));
+        }
+        const probe = require('net').createServer();
+        probe.once('error', (err: any) => {
+          if (err.code === 'EADDRINUSE') {
+            console.error(`Port ${port} is already occupied.`);
+            resolve(findAvailablePort(port + 1, maxPort));
+          } else {
+            reject(err);
+          }
+        });
+        probe.once('listening', () => {
+          probe.close(() => resolve(port));
+        });
+        probe.listen(port);
       });
     };
 
-    while (!activeServer && currentPort < startPort + 10) {
-      const success = await tryListen(currentPort);
-      if (!success) {
-        currentPort++;
-      }
-    }
-
-    if (!activeServer) {
-      console.error('❌ Could not find an available port.');
-      process.exit(1);
-    }
+    const availablePort = await findAvailablePort(startPort, startPort + 10);
+    
+    console.log(`Attempting to start server on port ${availablePort}...`);
+    httpServer.listen(availablePort, () => {
+      console.log(`✅ Server running on port ${availablePort}`);
+    });
 
     // Process cleanup
     const gracefulShutdown = () => {
-      console.log('\\nShutting down gracefully...');
-      if (activeServer) {
-        activeServer.close(() => {
-          console.log('HTTP server closed.');
-          process.exit(0);
-        });
-      } else {
+      console.log('\nShutting down gracefully...');
+      httpServer.close(() => {
+        console.log('HTTP server closed.');
         process.exit(0);
-      }
+      });
     };
 
     process.on('SIGINT', gracefulShutdown);

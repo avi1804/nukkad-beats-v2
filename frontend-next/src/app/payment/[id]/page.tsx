@@ -23,13 +23,13 @@ export default function QRPaymentPage() {
     const fetchOrder = async () => {
       try {
         const res = await orderApi.getOrderById(id as string);
-        
+
         // If this order is attached to a studio booking, redirect to the combined payment page
         if (res.data.bookingId) {
           router.replace(`/payment/booking/${res.data.bookingId}`);
           return;
         }
-        
+
         setOrder(res.data);
       } catch (err) {
         toast.error("Failed to load order details");
@@ -60,7 +60,7 @@ export default function QRPaymentPage() {
   }
 
   // Use a fixed UPI ID for demonstration, or dynamic if available.
-  const upiId = "nukkadbeats@upi";
+  const upiId = "manika.saini2020-2@okhdfcbank";
   const amount = order.totalAmount.toFixed(2);
   const upiLink = `upi://pay?pa=${upiId}&pn=Nukkad%20Beats&am=${amount}&cu=INR&tn=Order%20${order.orderReference}`;
 
@@ -87,17 +87,17 @@ export default function QRPaymentPage() {
           className="bg-glass-bg border border-glass-border rounded-[24px] p-[32px] md:p-[48px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-gold via-[#FFD166] to-gold"></div>
-          
+
           <div className="flex flex-col md:flex-row gap-[40px] items-center md:items-start">
             {/* Left: QR Code */}
             <div className="flex flex-col items-center flex-1">
               <h3 className="text-white font-[600] text-[1.2rem] mb-[24px]">Scan to Pay</h3>
               <div className="bg-white p-[20px] rounded-[16px] shadow-[0_10px_30px_rgba(255,209,102,0.15)] mb-[24px]">
-                <QRCodeSVG 
-                  value={upiLink} 
-                  size={200} 
-                  bgColor={"#ffffff"} 
-                  fgColor={"#0D0B12"} 
+                <QRCodeSVG
+                  value={upiLink}
+                  size={200}
+                  bgColor={"#ffffff"}
+                  fgColor={"#0D0B12"}
                   level={"M"}
                   includeMargin={true}
                 />
@@ -106,7 +106,7 @@ export default function QRPaymentPage() {
                 <span className="text-text-muted text-[0.9rem]">Or pay via UPI ID</span>
                 <div className="flex items-center gap-[12px] bg-white/5 border border-white/10 rounded-[12px] py-[10px] px-[16px] w-full max-w-[240px] justify-between">
                   <span className="text-white font-[600] tracking-wider">{upiId}</span>
-                  <button 
+                  <button
                     onClick={() => {
                       navigator.clipboard.writeText(upiId);
                       toast.success("UPI ID copied!");
@@ -123,7 +123,7 @@ export default function QRPaymentPage() {
             <div className="flex-1 w-full flex flex-col">
               <div className="bg-white/5 border border-white/10 rounded-[16px] p-[24px] flex-1">
                 <h3 className="text-white font-[700] text-[1.1rem] mb-[20px] border-b border-white/10 pb-[12px]">Order Summary</h3>
-                
+
                 <div className="flex flex-col gap-[12px] mb-[24px]">
                   <div className="flex justify-between">
                     <span className="text-text-light">Order ID</span>

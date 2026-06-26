@@ -8,6 +8,8 @@ import { TicketModal, Booking } from "@/components/bookings/TicketModal";
 import Navbar from "@/components/layout/Navbar";
 import { Calendar, Clock, MapPin, Users, Info, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useSocket } from "@/hooks/useSocket";
+import { BOOKING_STATUS_UPDATED, BOOKING_CANCELLED } from "@/socket/events";
 
 export default function MyBookingsPage() {
   const { user } = useAuthStore();
@@ -77,6 +79,18 @@ export default function MyBookingsPage() {
       fetchBookings();
     }
   }, [isLoggedIn, fetchBookings]);
+
+  useSocket(BOOKING_STATUS_UPDATED, ({ bookingId, status }) => {
+    setBookings((prev) =>
+      prev.map((b) => (b.id === bookingId ? { ...b, bookingStatus: status } : b))
+    );
+  });
+
+  useSocket(BOOKING_CANCELLED, ({ bookingId }) => {
+    setBookings((prev) =>
+      prev.map((b) => (b.id === bookingId ? { ...b, bookingStatus: "CANCELLED" } : b))
+    );
+  });
 
   const filteredBookings = bookings.filter((b) => {
     const bookingEndDate = new Date(b.date);

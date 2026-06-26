@@ -1,5 +1,7 @@
 import { User } from '@prisma/client';
 import { prisma } from '../utils/prisma';
+import { emitEvent } from '../socket/emitter';
+import { SESSION_INVALIDATED } from '../socket/events';
 
 export class UserService {
   static async getProfile(userId: string): Promise<Omit<User, 'passwordHash'>> {
@@ -123,8 +125,10 @@ export class UserService {
       }
     });
     
+    
     // Revoke all sessions
     await prisma.session.deleteMany({ where: { userId } });
+    emitEvent(`user:${userId}`, SESSION_INVALIDATED, {});
     return { success: true };
   }
 
@@ -156,6 +160,7 @@ export class UserService {
     // If blocked, optionally revoke sessions
     if (isBlocked) {
       await prisma.session.deleteMany({ where: { userId } });
+      emitEvent(`user:${userId}`, SESSION_INVALIDATED, {});
     }
     
     return user;

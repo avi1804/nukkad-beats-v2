@@ -6,6 +6,8 @@ import { toast } from "react-hot-toast";
 import { Calendar, Clock, User, Trash2, Edit, CheckCircle, Search } from "lucide-react";
 import ManualBookingForm from "../../../components/admin/ManualBookingForm";
 import BookingCalendar from "../../../components/admin/BookingCalendar";
+import { useSocket } from "../../../hooks/useSocket";
+import { BOOKING_NEW, BOOKING_STATUS_UPDATED, BOOKING_CANCELLED } from "../../../socket/events";
 
 export default function AdminBookings() {
   const [activeTab, setActiveTab] = useState<"upcoming" | "manual">("upcoming");
@@ -27,6 +29,26 @@ export default function AdminBookings() {
   useEffect(() => {
     fetchBookings();
   }, [activeTab]); // Refetch when tab changes
+
+  useSocket(BOOKING_NEW, (newBooking) => {
+    setBookings((prev) => {
+      if (prev.find((b) => b.id === newBooking.id)) return prev;
+      return [newBooking, ...prev];
+    });
+    toast.success(`New booking received: ${newBooking.bookingReference}`);
+  });
+
+  useSocket(BOOKING_STATUS_UPDATED, ({ bookingId, status }) => {
+    setBookings((prev) =>
+      prev.map((b) => (b.id === bookingId ? { ...b, bookingStatus: status } : b))
+    );
+  });
+
+  useSocket(BOOKING_CANCELLED, ({ bookingId, status }) => {
+    setBookings((prev) =>
+      prev.map((b) => (b.id === bookingId ? { ...b, bookingStatus: status } : b))
+    );
+  });
 
   const updateBookingStatus = async (id: string, status: string) => {
     try {

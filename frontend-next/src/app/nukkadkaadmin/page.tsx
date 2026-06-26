@@ -7,6 +7,8 @@ import {
   LineChart, Line
 } from "recharts";
 import { DollarSign, Music, ShoppingCart, Users, CalendarDays, Clock } from "lucide-react";
+import { useSocket } from "../../hooks/useSocket";
+import { DASHBOARD_STATS_UPDATED } from "../../socket/events";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null);
@@ -31,6 +33,10 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchDashboardData();
   }, []);
+
+  useSocket(DASHBOARD_STATS_UPDATED, () => {
+    fetchDashboardData();
+  });
 
   if (isLoading) {
     return (
@@ -58,13 +64,15 @@ export default function AdminDashboard() {
           const Icon = card.icon;
           return (
             <div key={idx} style={{ 
-              background: "var(--bg-card)", 
-              border: "1px solid var(--border)", 
+              background: "rgba(255, 255, 255, 0.06)", 
+              border: "1px solid var(--glass-border)", 
               borderRadius: "12px", 
               padding: "24px",
               display: "flex",
               alignItems: "flex-start",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)"
             }}>
               <div>
                 <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "8px", fontWeight: 600 }}>{card.title}</p>
@@ -87,7 +95,7 @@ export default function AdminDashboard() {
       <div className="admin-charts-grid">
         
         {/* Revenue Trend Line Chart */}
-        <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "12px", padding: "24px" }}>
+        <div style={{ background: "rgba(255, 255, 255, 0.06)", border: "1px solid var(--glass-border)", borderRadius: "12px", padding: "24px", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
           <h3 style={{ marginBottom: "24px", fontFamily: "var(--font-display)" }}>Revenue Trend (Last 7 Days)</h3>
           <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
@@ -96,8 +104,8 @@ export default function AdminDashboard() {
                 <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={12} />
                 <YAxis stroke="var(--text-muted)" fontSize={12} tickFormatter={(val) => `₹${val}`} />
                 <Tooltip 
-                  contentStyle={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "8px" }}
-                  formatter={(value) => [`₹${value}`, 'Revenue']}
+                  contentStyle={{ background: "rgba(22, 19, 29, 0.85)", border: "1px solid var(--glass-border)", borderRadius: "8px", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
+                  formatter={(value: any, name: any) => [`₹${value}`, name]}
                 />
                 <Legend />
                 <Line type="monotone" dataKey="total" stroke="var(--gold)" strokeWidth={3} activeDot={{ r: 8 }} name="Total Revenue" />
@@ -107,7 +115,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Revenue Split Bar Chart */}
-        <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "12px", padding: "24px" }}>
+        <div style={{ background: "rgba(255, 255, 255, 0.06)", border: "1px solid var(--glass-border)", borderRadius: "12px", padding: "24px", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
           <h3 style={{ marginBottom: "24px", fontFamily: "var(--font-display)" }}>Studio vs Cafe Revenue</h3>
           <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
@@ -116,12 +124,12 @@ export default function AdminDashboard() {
                 <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={12} />
                 <YAxis stroke="var(--text-muted)" fontSize={12} tickFormatter={(val) => `₹${val}`} />
                 <Tooltip 
-                  contentStyle={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "8px" }}
-                  formatter={(value) => [`₹${value}`, '']}
+                  contentStyle={{ background: "rgba(22, 19, 29, 0.85)", border: "1px solid var(--glass-border)", borderRadius: "8px", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
+                  formatter={(value: any, name: any) => [`₹${value}`, name]}
                 />
                 <Legend />
-                <Bar dataKey="studio" fill="#8b5cf6" name="Studio Revenue" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="cafe" fill="#f59e0b" name="Cafe Revenue" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="studio" stackId="a" fill="#8b5cf6" name="Studio Revenue" maxBarSize={40} />
+                <Bar dataKey="cafe" stackId="a" fill="#f59e0b" name="Cafe Revenue" radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
             </ResponsiveContainer>
           </div>

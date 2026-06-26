@@ -7,6 +7,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useSocketContext } from "../../context/SocketContext";
 
 export default function BookingModal() {
   const { isBookingModalOpen, selectedStudio, bookingData, closeBookingModal, setBookingData, resetBookingData, openBookingModal, setActiveBookingId, activeBookingId } = useBookingStore();
@@ -144,6 +145,29 @@ export default function BookingModal() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBookingModalOpen, bookingData.date, selectedStudio, realStudioId]);
+
+  // Real-time slot sync
+  const { socket } = useSocketContext();
+  useEffect(() => {
+    if (!socket || !isBookingModalOpen || !realStudioId || view !== "form") return;
+
+    const handleSlotUpdate = () => {
+      fetchAvailability();
+    };
+
+    socket.on('BOOKING_SLOT_UNAVAILABLE', handleSlotUpdate);
+    socket.on('BOOKING_SLOT_AVAILABLE', handleSlotUpdate);
+    socket.on('BOOKING_NEW', handleSlotUpdate);
+    socket.on('BOOKING_CANCELLED', handleSlotUpdate);
+
+    return () => {
+      socket.off('BOOKING_SLOT_UNAVAILABLE', handleSlotUpdate);
+      socket.off('BOOKING_SLOT_AVAILABLE', handleSlotUpdate);
+      socket.off('BOOKING_NEW', handleSlotUpdate);
+      socket.off('BOOKING_CANCELLED', handleSlotUpdate);
+    };
+  }, [socket, isBookingModalOpen, realStudioId, view, bookingData.date]); // Re-bind if date changes
+
 
   if (!isBookingModalOpen) return null;
 
@@ -416,9 +440,11 @@ export default function BookingModal() {
               </div>
 
               {/* Desktop Submit Button */}
-              <button type="submit" disabled={!agreedToRefunds} className="hidden md:flex btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed" style={{ width: '100%', justifyContent: 'center' }}>
-                Proceed to Payment 💳
-              </button>
+              <div className="hidden md:block">
+                <button type="submit" disabled={!agreedToRefunds} className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed" style={{ width: '100%', justifyContent: 'center' }}>
+                  Proceed to Payment 💳
+                </button>
+              </div>
               <p style={{
                 fontSize: '0.75rem',
                 color: 'var(--text-muted)',

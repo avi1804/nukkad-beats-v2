@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { api } from "@/lib/api";
 import { useAuthStore } from "@/store/useAuthStore";
 import Navbar from "@/components/layout/Navbar";
-import { QRCodeSVG } from "qrcode.react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
@@ -53,15 +52,15 @@ export default function BookingQRPaymentPage() {
   }
 
   // Use a fixed UPI ID for demonstration
-  const upiId = "nukkadbeats@upi";
-  
+  const upiId = "manika.saini2020-2@okhdfcbank";
+
   const studioAmount = booking.totalAmount || 0;
-  const foodAmount = booking.orders && booking.orders.length > 0 
+  const foodAmount = booking.orders && booking.orders.length > 0
     ? booking.orders.reduce((sum: number, order: any) => sum + order.totalAmount, 0)
     : 0;
   const totalAmount = studioAmount + foodAmount;
   const amount = totalAmount.toFixed(2);
-  
+
   const upiLink = `upi://pay?pa=${upiId}&pn=Nukkad%20Beats&am=${amount}&cu=INR&tn=Booking%20${booking.bookingReference}`;
 
   const formattedDate = booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A";
@@ -89,26 +88,23 @@ export default function BookingQRPaymentPage() {
           className="bg-glass-bg border border-glass-border rounded-[24px] p-[32px] md:p-[48px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-gold via-[#FFD166] to-gold"></div>
-          
+
           <div className="flex flex-col md:flex-row gap-[40px] items-center md:items-start">
             {/* Left: QR Code */}
             <div className="flex flex-col items-center flex-1">
               <h3 className="text-white font-[600] text-[1.2rem] mb-[24px]">Scan to Pay</h3>
-              <div className="bg-white p-[20px] rounded-[16px] shadow-[0_10px_30px_rgba(255,209,102,0.15)] mb-[24px]">
-                <QRCodeSVG 
-                  value={upiLink} 
-                  size={200} 
-                  bgColor={"#ffffff"} 
-                  fgColor={"#0D0B12"} 
-                  level={"M"}
-                  includeMargin={true}
+              <div className="bg-white p-[12px] rounded-[16px] shadow-[0_10px_30px_rgba(255,209,102,0.15)] mb-[24px] w-full max-w-[260px] aspect-square flex items-center justify-center overflow-hidden">
+                <img
+                  src="/images/qr.jpg"
+                  alt="Scan to Pay"
+                  className="w-full h-full object-contain rounded-[8px]"
                 />
               </div>
               <div className="flex flex-col items-center gap-[8px] mb-[24px] w-full">
                 <span className="text-text-muted text-[0.9rem]">Or pay via UPI ID</span>
                 <div className="flex items-center gap-[12px] bg-white/5 border border-white/10 rounded-[12px] py-[10px] px-[16px] w-full max-w-[240px] justify-between">
                   <span className="text-white font-[600] tracking-wider">{upiId}</span>
-                  <button 
+                  <button
                     onClick={() => {
                       navigator.clipboard.writeText(upiId);
                       toast.success("UPI ID copied!");
@@ -125,7 +121,7 @@ export default function BookingQRPaymentPage() {
             <div className="flex-1 w-full flex flex-col">
               <div className="bg-white/5 border border-white/10 rounded-[16px] p-[24px] flex-1">
                 <h3 className="text-white font-[700] text-[1.1rem] mb-[20px] border-b border-white/10 pb-[12px]">Booking Summary</h3>
-                
+
                 <div className="flex flex-col gap-[12px] mb-[24px]">
                   <div className="flex justify-between">
                     <span className="text-text-light">Booking ID</span>
@@ -196,6 +192,13 @@ export default function BookingQRPaymentPage() {
                   <span>Your booking will be confirmed automatically once payment is received.</span>
                 </p>
               </div>
+
+              <button
+                onClick={() => router.push("/my-orders")}
+                className="w-full mt-[24px] bg-gold text-[#210B2C] font-[700] py-[14px] rounded-[12px] hover:bg-[#F4C852] transition-colors shadow-[0_8px_20px_rgba(216,154,43,0.3)] hover:shadow-[0_12px_25px_rgba(216,154,43,0.4)]"
+              >
+                I have done my payment
+              </button>
             </div>
           </div>
         </motion.div>

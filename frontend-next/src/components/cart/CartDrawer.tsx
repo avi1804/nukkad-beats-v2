@@ -66,7 +66,7 @@ export function CartDrawer() {
         await orderApi.checkout({ paymentMethod: "OFFLINE", bookingId: activeBookingId });
         
         toast.success("Food added to your booking! 🎉");
-        clearCart();
+        useCartStore.getState().clearCart();
         setCartOpen(false);
         router.push(`/payment/booking/${activeBookingId}`);
         setActiveBookingId(null);

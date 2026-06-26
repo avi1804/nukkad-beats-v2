@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import BookingModal from "@/components/modals/BookingModal";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import MobileNav from "@/components/layout/MobileNav";
+import { SocketProvider } from "@/context/SocketContext";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -30,21 +31,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${montserrat.variable} ${playfair.variable} antialiased`}>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body className={`${montserrat.variable} ${playfair.variable} antialiased`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
-          <SmoothScrollProvider>
-            {children}
-            <Toaster position="bottom-right" toastOptions={{ 
-              style: { 
-                background: '#0B0B0F', 
-                color: '#fff', 
-                border: '1px solid rgba(255,255,255,0.1)' 
-              } 
-            }} />
-            <BookingModal />
-            <MobileNav />
-          </SmoothScrollProvider>
+          <SocketProvider>
+            <SmoothScrollProvider>
+              {children}
+              <Toaster position="bottom-right" toastOptions={{ 
+                style: { 
+                  background: '#0B0B0F', 
+                  color: '#fff', 
+                  border: '1px solid rgba(255,255,255,0.1)' 
+                } 
+              }} />
+              <BookingModal />
+              <MobileNav />
+            </SmoothScrollProvider>
+          </SocketProvider>
         </GoogleOAuthProvider>
       </body>
     </html>

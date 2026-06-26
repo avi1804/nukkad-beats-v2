@@ -4,6 +4,8 @@ import { BookingSlotService } from './BookingSlotService';
 import { v4 as uuidv4 } from 'uuid';
 import { EmailService } from './EmailService';
 import { WhatsAppService } from './WhatsAppService';
+import { emitEvent } from '../socket/emitter';
+import { BOOKING_NEW, BOOKING_STATUS_UPDATED, BOOKING_SLOT_UNAVAILABLE, BOOKING_SLOT_AVAILABLE, BOOKING_CANCELLED, NOTIFICATION_NEW } from '../socket/events';
 
 export class BookingService {
   static async createBooking(userId: string, data: any): Promise<Booking> {
@@ -74,6 +76,11 @@ export class BookingService {
       })
     ]);
 
+    // Emit real-time events
+    emitEvent('role:admin', BOOKING_NEW, booking);
+    emitEvent('global', BOOKING_SLOT_UNAVAILABLE, { slotId: booking.id, studioId: data.studioId, date: bookingDate });
+    emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Booking Confirmed', message: 'Your studio booking has been confirmed.', type: 'success', link: '/my-bookings' });
+
     // Send emails (non-blocking)
     EmailService.sendBookingConfirmation(booking.user, booking);
     EmailService.sendAdminNotification('New Studio Booking', {
@@ -93,10 +100,17 @@ export class BookingService {
   }
 
   static async updateStatus(id: string, status: BookingStatus): Promise<Booking> {
-    return prisma.booking.update({
+    const updated = await prisma.booking.update({
       where: { id },
-      data: { bookingStatus: status }
+      data: { bookingStatus: status },
+      include: { user: true }
     });
+
+    emitEvent(`user:${updated.userId}`, BOOKING_STATUS_UPDATED, { bookingId: id, status, updatedAt: new Date() });
+    emitEvent('role:admin', BOOKING_STATUS_UPDATED, { bookingId: id, status, updatedAt: new Date() });
+    emitEvent(`user:${updated.userId}`, NOTIFICATION_NEW, { userId: updated.userId, title: 'Booking Update', message: `Your booking status changed to ${status}.`, type: 'info' });
+
+    return updated;
   }
 
   static async cancelBooking(id: string): Promise<Booking> {
@@ -105,7 +119,7 @@ export class BookingService {
       throw new Error('Booking not found');
     }
 
-    return prisma.$transaction(async (tx) => {
+    const cancelledBooking = await prisma.$transaction(async (tx) => {
       const updatedBooking = await tx.booking.update({
         where: { id },
         data: { bookingStatus: BookingStatus.CANCELLED }
@@ -124,6 +138,13 @@ export class BookingService {
 
       return updatedBooking;
     });
+
+    // Real-time events
+    emitEvent(`user:${booking.userId}`, BOOKING_CANCELLED, { bookingId: id, status: BookingStatus.CANCELLED });
+    emitEvent('role:admin', BOOKING_CANCELLED, { bookingId: id, status: BookingStatus.CANCELLED });
+    emitEvent('global', BOOKING_SLOT_AVAILABLE, { slotId: id, studioId: booking.studioId, date: booking.bookingDate });
+    
+    return cancelledBooking;
   }
 
   static async getUserBookings(userId: string): Promise<Booking[]> {
@@ -273,6 +294,15 @@ export class BookingService {
       })
     ]);
 
+    // Real-time events
+    emitEvent('global', BOOKING_SLOT_UNAVAILABLE, { slotId: booking.id, studioId: data.studioId, date: bookingDate });
+    emitEvent('role:admin', BOOKING_NEW, booking);
+    if (booking.user.role === 'USER') {
+      emitEvent(`user:${booking.userId}`, BOOKING_NEW, booking);
+      emitEvent(`user:${booking.userId}`, NOTIFICATION_NEW, { userId: booking.userId, title: 'Booking Created', message: 'An admin has created a booking for you.', type: 'info', link: '/my-bookings' });
+    }
+
+
     if (booking.user.phone) {
       WhatsAppService.sendStudioBookingNotification(booking, booking.user);
     }
@@ -284,7 +314,7 @@ export class BookingService {
     const existing = await prisma.booking.findUnique({ where: { id } });
     if (!existing) throw new Error('Booking not found');
 
-    return prisma.$transaction(async (tx) => {
+    const updated = await prisma.$transaction(async (tx) => {
       // If date/time changed, we need to update the slot
       if ((data.bookingDate && new Date(data.bookingDate).getTime() !== existing.bookingDate.getTime()) ||
           (data.startTime && data.startTime !== existing.startTime) ||
@@ -344,6 +374,13 @@ export class BookingService {
         include: { studio: true, user: { select: { fullName: true, email: true, phone: true } } }
       });
     });
+
+    // Real-time events
+    emitEvent('global', BOOKING_SLOT_UNAVAILABLE, { slotId: id, studioId: updated.studioId, date: updated.bookingDate }); // Re-emit to refresh clients
+    emitEvent('role:admin', BOOKING_STATUS_UPDATED, { bookingId: id, status: updated.bookingStatus, updatedAt: new Date() });
+    emitEvent(`user:${updated.userId}`, BOOKING_STATUS_UPDATED, { bookingId: id, status: updated.bookingStatus, updatedAt: new Date() });
+
+    return updated;
   }
 
   static async deleteBooking(id: string): Promise<void> {
@@ -363,5 +400,9 @@ export class BookingService {
       // Delete booking
       await tx.booking.delete({ where: { id } });
     });
+
+    emitEvent('global', BOOKING_SLOT_AVAILABLE, { slotId: id, studioId: booking.studioId, date: booking.bookingDate });
+    emitEvent('role:admin', BOOKING_CANCELLED, { bookingId: id, status: 'DELETED' });
+    emitEvent(`user:${booking.userId}`, BOOKING_CANCELLED, { bookingId: id, status: 'DELETED' });
   }
 }

@@ -4,6 +4,8 @@ import { prisma } from '../utils/prisma';
 import { PaymentStatus, PaymentMethod } from '@prisma/client';
 import { EmailService } from './EmailService';
 import { WhatsAppService } from './WhatsAppService';
+import { emitEvent } from '../socket/emitter';
+import { PAYMENT_STATUS_UPDATED, PAYMENT_VERIFIED, DASHBOARD_STATS_UPDATED, BOOKING_STATUS_UPDATED } from '../socket/events';
 
 export class PaymentService {
   static async createPaymentOrder(amount: number, receiptId: string) {
@@ -43,6 +45,8 @@ export class PaymentService {
       }
     });
 
+    emitEvent('role:admin', PAYMENT_STATUS_UPDATED, { paymentId: payment.id, bookingId, status: PaymentStatus.PENDING, updatedAt: new Date() });
+
     return { payment, razorpayOrder };
   }
 
@@ -69,6 +73,14 @@ export class PaymentService {
 
     // Send WhatsApp notification
     WhatsAppService.sendPaymentSuccessNotification(updatedPayment, 'Studio Booking', updatedBooking.bookingReference, updatedBooking.user);
+
+    // Real-time Socket events
+    emitEvent(`user:${updatedBooking.userId}`, PAYMENT_VERIFIED, { paymentId, bookingId: updatedPayment.bookingId, status: PaymentStatus.PAID, updatedAt: new Date() });
+    emitEvent('role:admin', PAYMENT_VERIFIED, { paymentId, bookingId: updatedPayment.bookingId, status: PaymentStatus.PAID, updatedAt: new Date() });
+    emitEvent(`user:${updatedBooking.userId}`, BOOKING_STATUS_UPDATED, { bookingId: updatedPayment.bookingId, status: PaymentStatus.PAID, updatedAt: new Date() });
+    emitEvent('role:admin', BOOKING_STATUS_UPDATED, { bookingId: updatedPayment.bookingId, status: PaymentStatus.PAID, updatedAt: new Date() });
+    // Tell dashboard to refresh stats
+    emitEvent('role:admin', DASHBOARD_STATS_UPDATED, { timestamp: new Date() });
 
     return updatedPayment;
   }

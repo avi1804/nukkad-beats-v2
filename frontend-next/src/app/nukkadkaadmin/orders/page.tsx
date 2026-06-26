@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../../lib/api";
 import { toast } from "react-hot-toast";
 import { ShoppingCart, Clock, Search, Trash2 } from "lucide-react";
+import { useSocket } from "../../../hooks/useSocket";
+import { ORDER_NEW, ORDER_STATUS_UPDATED } from "../../../socket/events";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -23,6 +25,21 @@ export default function AdminOrders() {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  useSocket(ORDER_NEW, (newOrder) => {
+    setOrders((prev) => {
+      // Avoid duplicates
+      if (prev.find((o) => o.id === newOrder.id)) return prev;
+      return [newOrder, ...prev];
+    });
+    toast.success(`New order received: ${newOrder.orderReference}`);
+  });
+
+  useSocket(ORDER_STATUS_UPDATED, ({ orderId, status }) => {
+    setOrders((prev) =>
+      prev.map((o) => (o.id === orderId ? { ...o, orderStatus: status } : o))
+    );
+  });
 
   const updateOrderStatus = async (id: string, status: string) => {
     try {
@@ -68,7 +85,7 @@ export default function AdminOrders() {
               ) : orders.map((o) => (
                 <tr key={o.id} style={{ borderBottom: "1px solid var(--border)", transition: "background 0.2s" }}>
                   <td style={{ padding: "16px" }}>
-                    <div style={{ fontWeight: 600, color: "var(--gold)" }}>#{o.id.substring(o.id.length - 6).toUpperCase()}</div>
+                    <div style={{ fontWeight: 600, color: "var(--gold)" }}>{o.orderReference}</div>
                     <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
                       <Clock size={12} />
                       {new Date(o.createdAt).toLocaleString()}
@@ -131,7 +148,7 @@ export default function AdminOrders() {
             <div key={o.id} className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl p-4 flex flex-col gap-3">
               <div className="flex justify-between items-start border-b border-[rgba(255,255,255,0.05)] pb-3">
                 <div>
-                  <div className="font-semibold text-gold text-sm">#{o.id.substring(o.id.length - 6).toUpperCase()}</div>
+                  <div className="font-semibold text-gold text-sm">{o.orderReference}</div>
                   <div className="text-[0.7rem] text-text-muted mt-0.5 flex items-center gap-1">
                     <Clock size={10} /> {new Date(o.createdAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
                   </div>

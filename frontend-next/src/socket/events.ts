@@ -1,0 +1,36 @@
+// Shared Socket.IO event constants
+// MUST match the backend event names exactly
+
+// Order Events
+export const ORDER_NEW = 'ORDER_NEW';
+export const ORDER_STATUS_UPDATED = 'ORDER_STATUS_UPDATED';
+export const ORDER_DELETED = 'ORDER_DELETED';
+
+// Booking Events
+export const BOOKING_NEW = 'BOOKING_NEW';
+export const BOOKING_STATUS_UPDATED = 'BOOKING_STATUS_UPDATED';
+export const BOOKING_SLOT_UNAVAILABLE = 'BOOKING_SLOT_UNAVAILABLE';
+export const BOOKING_SLOT_AVAILABLE = 'BOOKING_SLOT_AVAILABLE';
+export const BOOKING_CANCELLED = 'BOOKING_CANCELLED';
+
+// Payment Events
+export const PAYMENT_STATUS_UPDATED = 'PAYMENT_STATUS_UPDATED';
+export const PAYMENT_VERIFIED = 'PAYMENT_VERIFIED';
+
+// Product/Menu Events
+export const PRODUCT_AVAILABILITY_CHANGED = 'PRODUCT_AVAILABILITY_CHANGED';
+export const PRODUCT_ADDED = 'PRODUCT_ADDED';
+export const PRODUCT_UPDATED = 'PRODUCT_UPDATED';
+export const PRODUCT_DELETED = 'PRODUCT_DELETED';
+
+// Notifications & Dashboard
+export const NOTIFICATION_NEW = 'NOTIFICATION_NEW';
+export const DASHBOARD_STATS_UPDATED = 'DASHBOARD_STATS_UPDATED';
+
+// Client Events
+export const CLIENT_AUTHENTICATE = 'CLIENT_AUTHENTICATE';
+export const CLIENT_SUBSCRIBE = 'CLIENT_SUBSCRIBE';
+
+// Error Events
+export const EXCEPTION = 'EXCEPTION';
+export const SESSION_INVALIDATED = 'SESSION_INVALIDATED';
