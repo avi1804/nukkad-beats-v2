@@ -189,7 +189,7 @@ export default function BookingQRPaymentPage() {
                 </p>
                 <p className="flex items-start gap-[8px]">
                   <span className="text-gold mt-[2px]">✓</span>
-                  <span>Your booking will be confirmed automatically once payment is received.</span>
+                  <span>Your booking will be confirmed by an admin after verifying the payment.</span>
                 </p>
               </div>
 

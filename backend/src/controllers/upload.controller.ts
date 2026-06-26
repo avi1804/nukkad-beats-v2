@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-
+import { UploadService } from '../services/UploadService';
 
 export const uploadImage = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -8,11 +8,12 @@ export const uploadImage = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 5000}`;
-    const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
+    // Pass the local file path (from multer) to the Cloudinary service
+    const imageUrl = await UploadService.uploadImage(req.file.path);
 
     res.status(200).json({ url: imageUrl });
   } catch (error: any) {
+    console.error('Upload Error:', error);
     res.status(500).json({ error: 'Failed to upload image' });
   }
 };

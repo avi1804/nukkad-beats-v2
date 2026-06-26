@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { orderApi } from "@/lib/api";
 import { useAuthStore } from "@/store/useAuthStore";
 import Navbar from "@/components/layout/Navbar";
-import { QRCodeSVG } from "qrcode.react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
@@ -92,14 +91,11 @@ export default function QRPaymentPage() {
             {/* Left: QR Code */}
             <div className="flex flex-col items-center flex-1">
               <h3 className="text-white font-[600] text-[1.2rem] mb-[24px]">Scan to Pay</h3>
-              <div className="bg-white p-[20px] rounded-[16px] shadow-[0_10px_30px_rgba(255,209,102,0.15)] mb-[24px]">
-                <QRCodeSVG
-                  value={upiLink}
-                  size={200}
-                  bgColor={"#ffffff"}
-                  fgColor={"#0D0B12"}
-                  level={"M"}
-                  includeMargin={true}
+              <div className="bg-white p-[12px] rounded-[16px] shadow-[0_10px_30px_rgba(255,209,102,0.15)] mb-[24px] w-full max-w-[260px] aspect-square flex items-center justify-center overflow-hidden">
+                <img
+                  src="/images/qr.jpg"
+                  alt="Scan to Pay"
+                  className="w-full h-full object-contain rounded-[8px]"
                 />
               </div>
               <div className="flex flex-col items-center gap-[8px] mb-[24px] w-full">
@@ -164,9 +160,16 @@ export default function QRPaymentPage() {
                 </p>
                 <p className="flex items-start gap-[8px]">
                   <span className="text-gold mt-[2px]">✓</span>
-                  <span>Your order will be confirmed automatically once payment is received.</span>
+                  <span>Your order will be confirmed by an admin after verifying the payment.</span>
                 </p>
               </div>
+
+              <button
+                onClick={() => router.push("/my-orders")}
+                className="w-full mt-[24px] bg-gold text-[#210B2C] font-[700] py-[14px] rounded-[12px] hover:bg-[#F4C852] transition-colors shadow-[0_8px_20px_rgba(216,154,43,0.3)] hover:shadow-[0_12px_25px_rgba(216,154,43,0.4)]"
+              >
+                I have done my payment
+              </button>
             </div>
           </div>
         </motion.div>

@@ -112,8 +112,6 @@ export interface Config {
 const REQUIRED_ENV_VARS = [
   'DATABASE_URL',
   'JWT_SECRET',
-  'RAZORPAY_KEY_ID',
-  'RAZORPAY_KEY_SECRET',
   'CLOUDINARY_CLOUD_NAME',
   'CLOUDINARY_API_KEY',
   'CLOUDINARY_API_SECRET',
@@ -263,8 +261,8 @@ function loadConfig(): Config {
 
     // Razorpay (Required)
     razorpay: {
-      keyId: getEnvVar('RAZORPAY_KEY_ID'),
-      keySecret: getEnvVar('RAZORPAY_KEY_SECRET'),
+      keyId: process.env.RAZORPAY_KEY_ID || '',
+      keySecret: process.env.RAZORPAY_KEY_SECRET || '',
     },
 
     // Cloudinary (Required)
