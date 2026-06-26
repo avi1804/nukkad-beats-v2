@@ -152,7 +152,7 @@ export default function Gallery() {
           >
             📸 More real photos uploading soon — follow us for a sneak peek
           </p>
-          <a href="#" className="btn btn-outline">
+          <a href="https://www.instagram.com/nukkad_beats?igsh=MWVhcnRiNW8zOHNmeA%3D%3D" className="btn btn-outline">
             Follow on Instagram ↗
           </a>
         </div>
