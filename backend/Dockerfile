@@ -9,6 +9,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install dependencies
+RUN apk add --no-cache openssl
 RUN npm ci
 
 # Copy source code
@@ -30,6 +31,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies only
+RUN apk add --no-cache openssl
 RUN npm ci --only=production
 
 # Copy Prisma schema for migrations
