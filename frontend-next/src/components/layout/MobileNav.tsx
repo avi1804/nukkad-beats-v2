@@ -47,7 +47,7 @@ export default function MobileNav() {
   }, [pathname]);
 
   if (!isMounted) return null;
-
+  if (pathname.startsWith('/nukkadkaadmin')) return null;
   const handleProfileClick = () => {
     if (!isLoggedIn) {
       setAuthModalOpen(true);
