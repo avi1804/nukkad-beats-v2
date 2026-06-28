@@ -317,11 +317,25 @@ export default function BookingModal() {
                     value={bookingData.guests}
                     onChange={(e) => setBookingData({ guests: e.target.value })}
                   >
-                    <option style={{ background: '#16131D', color: '#fff' }}>5 - 10 Guests</option>
-                    <option style={{ background: '#16131D', color: '#fff' }}>10 - 20 Guests</option>
-                    <option style={{ background: '#16131D', color: '#fff' }}>20 - 40 Guests</option>
-                    <option style={{ background: '#16131D', color: '#fff' }}>40 - 60 Guests</option>
-                    <option style={{ background: '#16131D', color: '#fff' }}>60 - 90 Guests</option>
+                    {selectedStudio?.name === "NAMAS Studio 1" ? (
+                      <>
+                        <option style={{ background: '#16131D', color: '#fff' }}>1 - 5 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>5 - 10 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>10 - 20 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>20 - 30 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>30 - 40 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>40 - 50 Guests</option>
+                      </>
+                    ) : (
+                      <>
+                        <option style={{ background: '#16131D', color: '#fff' }}>1 - 5 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>5 - 10 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>10 - 20 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>20 - 40 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>40 - 60 Guests</option>
+                        <option style={{ background: '#16131D', color: '#fff' }}>60 - 90 Guests</option>
+                      </>
+                    )}
                   </select>
                 </div>
                 <div className={`form-group ${mobileStep !== 2 ? 'hidden md:block' : ''}`}>
