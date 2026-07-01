@@ -4,6 +4,7 @@ import { prisma } from '../utils/prisma';
 import { PaymentStatus, PaymentMethod } from '@prisma/client';
 import { EmailService } from './EmailService';
 import { WhatsAppService } from './WhatsAppService';
+import { TelegramService } from './TelegramService';
 import { emitEvent } from '../socket/emitter';
 import { PAYMENT_STATUS_UPDATED, PAYMENT_VERIFIED, DASHBOARD_STATS_UPDATED, BOOKING_STATUS_UPDATED } from '../socket/events';
 
@@ -71,8 +72,9 @@ export class PaymentService {
     EmailService.sendBookingConfirmation(updatedBooking.user, updatedBooking);
     EmailService.sendPaymentSuccess(updatedBooking.user, updatedPayment.amount, razorpayPaymentId, 'Studio Booking');
 
-    // Send WhatsApp notification
+    // Send WhatsApp & Telegram notification
     WhatsAppService.sendPaymentSuccessNotification(updatedPayment, 'Studio Booking', updatedBooking.bookingReference, updatedBooking.user);
+    TelegramService.sendPaymentSuccessNotification(updatedPayment, 'Studio Booking', updatedBooking.bookingReference, updatedBooking.user);
 
     // Real-time Socket events
     emitEvent(`user:${updatedBooking.userId}`, PAYMENT_VERIFIED, { paymentId, bookingId: updatedPayment.bookingId, status: PaymentStatus.PAID, updatedAt: new Date() });

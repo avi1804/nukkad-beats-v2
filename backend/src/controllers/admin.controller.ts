@@ -3,6 +3,7 @@ import { prisma } from '../utils/prisma';
 import { PaymentStatus, Role } from '@prisma/client';
 import { EmailService } from '../services/EmailService';
 import { WhatsAppService } from '../services/WhatsAppService';
+import { TelegramService } from '../services/TelegramService';
 import { emitEvent } from '../socket/emitter';
 import { PAYMENT_STATUS_UPDATED, PAYMENT_VERIFIED, DASHBOARD_STATS_UPDATED, BOOKING_STATUS_UPDATED, ORDER_STATUS_UPDATED } from '../socket/events';
 
@@ -161,6 +162,7 @@ export const updatePaymentStatus = async (req: Request, res: Response): Promise<
           if ((updated as any).user.phone) {
             WhatsAppService.sendStudioBookingNotification(updated as any, (updated as any).user).catch(console.error);
           }
+          TelegramService.sendStudioBookingNotification(updated as any, (updated as any).user).catch(console.error);
           EmailService.sendBookingConfirmation((updated as any).user, updated as any).catch(console.error);
         } catch (e) {
           console.error("Failed to send verification notifications:", e);

@@ -4,6 +4,7 @@ import { CartService } from './CartService';
 import { v4 as uuidv4 } from 'uuid';
 import { EmailService } from './EmailService';
 import { WhatsAppService } from './WhatsAppService';
+import { TelegramService } from './TelegramService';
 import { emitEvent } from '../socket/emitter';
 import { ORDER_NEW, ORDER_STATUS_UPDATED, NOTIFICATION_NEW } from '../socket/events';
 
@@ -75,10 +76,12 @@ export class OrderService {
       'Amount': `₹${order.totalAmount}`
     });
 
-    // Send WhatsApp notifications (non-blocking)
+    // Send WhatsApp & Telegram notifications (non-blocking)
     WhatsAppService.sendOrderNotification(order, order.user);
+    TelegramService.sendOrderNotification(order, order.user);
     if (order.paymentMethod === PaymentMethod.OFFLINE) {
       WhatsAppService.sendOfflinePaymentRequest('Cafe Order', order.orderReference, order.totalAmount, order.user);
+      TelegramService.sendOfflinePaymentRequest('Cafe Order', order.orderReference, order.totalAmount, order.user);
     }
 
     // Simulate real-world order progression for demo purposes
