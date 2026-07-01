@@ -5,7 +5,15 @@ import QRCode from 'qrcode';
 
 export class EmailService {
   private static readonly from = process.env.EMAIL_FROM_ADDRESS || 'NUKKAD BEATS <nukkadbeatsofficial@gmail.com>';
-  private static readonly adminEmail = process.env.EMAIL_USER || process.env.EMAIL_FROM_ADDRESS || 'admin@nukkadbeats.com';
+  static get adminEmail() {
+    const email = process.env.ADMIN_EMAIL || process.env.EMAIL_USER || process.env.EMAIL_FROM_ADDRESS || 'admin@nukkadbeats.com';
+    // If sending to the exact same Gmail address, Gmail hides it in the "Sent" folder.
+    // Appending "+admin" tricks Gmail into placing it in the primary Inbox.
+    if (email === process.env.EMAIL_USER && email.endsWith('@gmail.com') && !email.includes('+')) {
+      return email.replace('@gmail.com', '+admin@gmail.com');
+    }
+    return email;
+  }
 
   private static async sendMailSafely(to: string, subject: string, html: string) {
     try {
