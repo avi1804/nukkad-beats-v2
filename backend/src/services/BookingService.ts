@@ -3,7 +3,6 @@ import { prisma } from '../utils/prisma';
 import { BookingSlotService } from './BookingSlotService';
 import { v4 as uuidv4 } from 'uuid';
 import { EmailService } from './EmailService';
-import { WhatsAppService } from './WhatsAppService';
 import { TelegramService } from './TelegramService';
 import { emitEvent } from '../socket/emitter';
 import { BOOKING_NEW, BOOKING_STATUS_UPDATED, BOOKING_SLOT_UNAVAILABLE, BOOKING_SLOT_AVAILABLE, BOOKING_CANCELLED, NOTIFICATION_NEW } from '../socket/events';
@@ -91,11 +90,9 @@ export class BookingService {
       'Amount': `₹${booking.totalAmount}`
     });
 
-    // Send WhatsApp & Telegram notifications (non-blocking)
-    WhatsAppService.sendStudioBookingNotification(booking, booking.user);
+    // Send Telegram notifications (non-blocking)
     TelegramService.sendStudioBookingNotification(booking, booking.user);
     if (booking.paymentMethod === PaymentMethod.OFFLINE) {
-      WhatsAppService.sendOfflinePaymentRequest('Studio Booking', booking.bookingReference, booking.totalAmount, booking.user);
       TelegramService.sendOfflinePaymentRequest('Studio Booking', booking.bookingReference, booking.totalAmount, booking.user);
     }
 
@@ -306,9 +303,6 @@ export class BookingService {
     }
 
 
-    if (booking.user.phone) {
-      WhatsAppService.sendStudioBookingNotification(booking, booking.user);
-    }
     TelegramService.sendStudioBookingNotification(booking, booking.user);
     
     return booking;

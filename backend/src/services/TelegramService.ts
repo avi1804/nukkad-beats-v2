@@ -43,38 +43,28 @@ export class TelegramService {
   static async sendStudioBookingNotification(booking: any, user: any): Promise<void> {
     const message = `🎤 *NEW STUDIO BOOKING*
 
-Booking ID: ${booking.bookingReference}
-Customer: ${user.fullName}
-Phone: ${user.phone || 'N/A'}
-Studio: ${booking.studio?.name || 'Unknown Studio'}
-Date: ${new Date(booking.bookingDate).toLocaleDateString()}
-Time: ${booking.startTime} - ${booking.endTime}
-Guests: ${booking.guestCount}
-Payment Method: ${booking.paymentMethod}
-Payment Status: ${booking.paymentStatus}
-Total Amount: ₹${booking.totalAmount}
-
-Please check the Admin Dashboard for complete details.`;
+👤 *Customer*: ${user.fullName}
+📅 *Date & Time*: ${new Date(booking.bookingDate).toLocaleDateString()} | ${booking.startTime} - ${booking.endTime}
+🎙️ *Studio*: ${booking.studio?.name || 'Unknown Studio'}
+🔖 *Reference ID*: ${booking.bookingReference}
+💵 *Total Amount*: ₹${booking.totalAmount}
+💳 *Payment Method*: ${booking.paymentMethod}`;
 
     await this.sendMessage(message);
   }
 
   static async sendOrderNotification(order: any, user: any): Promise<void> {
-    const itemsList = order.items?.map((item: any) => `${item.quantity} × ${item.product?.name || 'Unknown'}`).join('\n') || 'None';
+    const itemsList = order.items?.map((item: any) => `• ${item.quantity} × ${item.product?.name || 'Unknown'}`).join('\n') || 'None';
 
     const message = `🍔 *NEW CAFÉ ORDER*
 
-Order ID: ${order.orderReference}
-Customer: ${user.fullName}
-Phone: ${user.phone || 'N/A'}
-Items:
+👤 *Customer*: ${user.fullName}
+🔖 *Order ID*: ${order.orderReference}
+🍽️ *Items Ordered*:
 ${itemsList}
 
-Total Amount: ₹${order.totalAmount}
-Payment Method: ${order.paymentMethod}
-Payment Status: ${order.paymentStatus}
-
-Please review in Admin Dashboard.`;
+💵 *Total Amount*: ₹${order.totalAmount}
+💳 *Payment Method*: ${order.paymentMethod}`;
 
     await this.sendMessage(message);
   }
