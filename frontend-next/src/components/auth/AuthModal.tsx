@@ -279,18 +279,18 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#08080D]/60 backdrop-blur-3xl"
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
           />
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="relative flex w-full max-w-[1000px] overflow-hidden rounded-[24px] border border-white/10 bg-[#08080D]/80 shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-[40px]"
+            className="relative flex w-full max-w-[1000px] overflow-hidden rounded-[24px] border border-glass-border bg-white shadow-[0_20px_60px_rgba(0,0,0,0.1)]"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute right-[20px] top-[20px] z-50 flex h-[36px] w-[36px] items-center justify-center rounded-full bg-black/40 text-white/80 backdrop-blur-md transition-colors hover:bg-black/80 hover:text-white md:right-[20px]"
+              className="absolute right-[20px] top-[20px] z-50 flex h-[36px] w-[36px] items-center justify-center rounded-full bg-gray-100 text-text-muted transition-colors hover:bg-gray-200 hover:text-text-white md:right-[20px]"
             >
               ✕
             </button>
@@ -315,14 +315,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 transition={{ delay: 0.2 }}
                 className="text-center mb-8"
               >
-                <h2 className="font-heading text-3xl font-bold text-white mb-2 tracking-tight">
+                <h2 className="font-heading text-3xl font-bold text-text-white mb-2 tracking-tight">
                   {activeTab === "login" && "Welcome Back"}
                   {activeTab === "register" && "Create Account"}
                   {activeTab === "forgot-password" && "Reset Password"}
                   {activeTab === "verify-otp" && "Verify Email"}
                   {activeTab === "reset-password" && "New Password"}
                 </h2>
-                <p className="text-sm text-white/60 font-light">
+                <p className="text-sm text-text-muted font-light">
                   {activeTab === "login" && "Sign in to continue your NUKKAD BEATS experience."}
                   {activeTab === "register" && "Join us to start your NUKKAD BEATS experience."}
                   {activeTab === "forgot-password" && "Enter your email to receive a verification code."}
@@ -366,11 +366,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="email"
                       id="login-email"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="login-email"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Email Address
                     </label>
@@ -387,11 +387,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="password"
                       id="login-password"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="login-password"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Password
                     </label>
@@ -437,11 +437,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="text"
                       id="reg-fullname"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="reg-fullname"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Full Name
                     </label>
@@ -458,11 +458,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="email"
                       id="reg-email"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="reg-email"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Email Address
                     </label>
@@ -479,11 +479,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="tel"
                       id="reg-phone"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="reg-phone"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Phone Number
                     </label>
@@ -500,11 +500,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="password"
                       id="reg-password"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="reg-password"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Password
                     </label>
@@ -522,7 +522,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       id="reg-terms"
                       className="mt-[4px] cursor-pointer"
                     />
-                    <label htmlFor="reg-terms" className="text-[0.8rem] text-white/60 leading-[1.5]">
+                    <label htmlFor="reg-terms" className="text-[0.8rem] text-text-muted leading-[1.5]">
                       I have read and agree to the <a href="/privacy" target="_blank" className="text-gold hover:underline">Privacy Policy</a> and <a href="/terms" target="_blank" className="text-gold hover:underline">Terms of Service</a>.
                     </label>
                   </div>
@@ -557,11 +557,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="email"
                       id="forgot-email"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="forgot-email"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Email Address
                     </label>
@@ -601,13 +601,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         onChange={(e) => handleOtpChange(index, e.target.value)}
                         onKeyDown={(e) => handleOtpKeyDown(index, e)}
                         onPaste={handleOtpPaste}
-                        className="w-12 h-14 text-center text-2xl font-bold rounded-[14px] border border-white/20 bg-white/5 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B] focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]"
+                        className="w-12 h-14 text-center text-2xl font-bold rounded-[14px] border border-glass-border bg-gray-50 text-text-white outline-none transition-all focus:border-gold focus:bg-white focus:ring-1 focus:ring-gold"
                       />
                     ))}
                   </div>
 
                   <div className="flex flex-col items-center gap-2">
-                    <p className="text-sm text-white/60">
+                    <p className="text-sm text-text-muted">
                       Code expires in: <span className="font-mono text-[#D89A2B] font-bold">{formatTime(otpTimer)}</span>
                     </p>
                     
@@ -646,11 +646,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="password"
                       id="reset-password"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="reset-password"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       New Password
                     </label>
@@ -664,12 +664,12 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   {resetForm.watch("password") && getPasswordStrength(resetForm.watch("password")) && (
                     <div className="px-2">
                       <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs text-white/60">Password Strength</span>
+                        <span className="text-xs text-text-muted">Password Strength</span>
                         <span className={`text-xs font-bold ${getPasswordStrength(resetForm.watch("password"))?.color}`}>
                           {getPasswordStrength(resetForm.watch("password"))?.text}
                         </span>
                       </div>
-                      <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                         <div 
                           className={`h-full transition-all duration-300 ${getPasswordStrength(resetForm.watch("password"))?.bg} ${getPasswordStrength(resetForm.watch("password"))?.width}`}
                         />
@@ -683,11 +683,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                       type="password"
                       id="reset-confirm"
                       placeholder=" "
-                      className="peer w-full rounded-[18px] border border-white/10 bg-white/5 px-4 pb-2.5 pt-6 text-white outline-none backdrop-blur-md transition-all focus:border-[#D89A2B]/50 focus:bg-white/10 focus:ring-1 focus:ring-[#D89A2B]/50"
+                      className="peer w-full rounded-[18px] border border-glass-border bg-gray-50 px-4 pb-2.5 pt-6 text-text-white outline-none transition-all focus:border-gold/50 focus:bg-white focus:ring-1 focus:ring-gold/50"
                     />
                     <label
                       htmlFor="reset-confirm"
-                      className="absolute left-4 top-4 text-sm text-white/50 transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-[#D89A2B] peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
+                      className="absolute left-4 top-4 text-sm text-text-muted transition-all cursor-text peer-focus:-translate-y-2.5 peer-focus:scale-75 peer-focus:text-gold peer-[:not(:placeholder-shown)]:-translate-y-2.5 peer-[:not(:placeholder-shown)]:scale-75 origin-[0]"
                     >
                       Confirm Password
                     </label>
@@ -713,9 +713,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 <>
                   {/* OR Divider */}
                   <div className="mt-8 flex items-center justify-center gap-4">
-                    <div className="h-[1px] w-full bg-white/10"></div>
-                    <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-white/40">OR</span>
-                    <div className="h-[1px] w-full bg-white/10"></div>
+                    <div className="h-[1px] w-full bg-glass-border"></div>
+                    <span className="font-heading text-[10px] font-bold tracking-[0.2em] text-text-muted">OR</span>
+                    <div className="h-[1px] w-full bg-glass-border"></div>
                   </div>
 
                   {/* Google Sign-In */}
@@ -723,7 +723,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                     type="button"
                     onClick={() => loginWithGoogle()}
                     disabled={isGoogleLoading}
-                    className="mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-white/90 px-6 py-4 font-heading font-bold text-gray-900 shadow-[0_8px_16px_rgba(255,255,255,0.05)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_12px_24px_rgba(255,255,255,0.1)] active:scale-[0.98] disabled:opacity-70"
+                    className="mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-4 font-heading font-bold text-text-white border border-glass-border shadow-sm transition-all hover:-translate-y-1 hover:bg-gray-50 hover:shadow-md active:scale-[0.98] disabled:opacity-70"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -737,7 +737,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               )}
 
               {/* Bottom Register/Login Prompt */}
-              <div className="mt-8 text-center text-sm text-white/60">
+              <div className="mt-8 text-center text-sm text-text-muted">
                 {activeTab === "login" && (
                   <>
                     Don't have an account?{" "}

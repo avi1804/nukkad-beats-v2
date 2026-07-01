@@ -63,20 +63,10 @@ export default function AdminDashboard() {
         {kpiCards.map((card, idx) => {
           const Icon = card.icon;
           return (
-            <div key={idx} style={{ 
-              background: "rgba(255, 255, 255, 0.06)", 
-              border: "1px solid var(--glass-border)", 
-              borderRadius: "12px", 
-              padding: "24px",
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "space-between",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)"
-            }}>
+            <div key={idx} className="bg-white border border-gray-200 rounded-xl p-6 flex items-start justify-between shadow-sm">
               <div>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "8px", fontWeight: 600 }}>{card.title}</p>
-                <h3 style={{ fontSize: "1.8rem", margin: 0, fontFamily: "var(--font-display)" }}>{card.value}</h3>
+                <p className="text-text-muted text-[0.85rem] mb-2 font-semibold">{card.title}</p>
+                <h3 className="text-[1.8rem] m-0 font-heading text-text-white">{card.value}</h3>
               </div>
               <div style={{ 
                 background: `${card.color}20`, 
@@ -95,16 +85,16 @@ export default function AdminDashboard() {
       <div className="admin-charts-grid">
         
         {/* Revenue Trend Line Chart */}
-        <div style={{ background: "rgba(255, 255, 255, 0.06)", border: "1px solid var(--glass-border)", borderRadius: "12px", padding: "24px", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
-          <h3 style={{ marginBottom: "24px", fontFamily: "var(--font-display)" }}>Revenue Trend (Last 7 Days)</h3>
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+          <h3 className="mb-6 font-heading text-text-white text-lg font-bold">Revenue Trend (Last 7 Days)</h3>
           <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
               <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2D283E" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={12} />
                 <YAxis stroke="var(--text-muted)" fontSize={12} tickFormatter={(val) => `₹${val}`} />
                 <Tooltip 
-                  contentStyle={{ background: "rgba(22, 19, 29, 0.85)", border: "1px solid var(--glass-border)", borderRadius: "8px", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
+                  contentStyle={{ background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px", color: "#111827" }}
                   formatter={(value: any, name: any) => [`₹${value}`, name]}
                 />
                 <Legend />
@@ -115,16 +105,16 @@ export default function AdminDashboard() {
         </div>
 
         {/* Revenue Split Bar Chart */}
-        <div style={{ background: "rgba(255, 255, 255, 0.06)", border: "1px solid var(--glass-border)", borderRadius: "12px", padding: "24px", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
-          <h3 style={{ marginBottom: "24px", fontFamily: "var(--font-display)" }}>Studio vs Cafe Revenue</h3>
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+          <h3 className="mb-6 font-heading text-text-white text-lg font-bold">Studio vs Cafe Revenue</h3>
           <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
               <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2D283E" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={12} />
                 <YAxis stroke="var(--text-muted)" fontSize={12} tickFormatter={(val) => `₹${val}`} />
                 <Tooltip 
-                  contentStyle={{ background: "rgba(22, 19, 29, 0.85)", border: "1px solid var(--glass-border)", borderRadius: "8px", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
+                  contentStyle={{ background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px", color: "#111827" }}
                   formatter={(value: any, name: any) => [`₹${value}`, name]}
                 />
                 <Legend />

@@ -92,10 +92,10 @@ export default function MyOrdersPage() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`relative px-[20px] py-[8px] rounded-full font-[600] text-[0.95rem] capitalize transition-all ${
+              className={`relative px-[20px] py-[8px] rounded-full font-[600] text-[0.95rem] capitalize transition-all border ${
                 activeTab === tab
-                  ? "bg-gold text-[#12041A]"
-                  : "text-text-light hover:text-white hover:bg-white/5"
+                  ? "bg-gold text-white border-gold"
+                  : "text-text-light hover:text-text-white hover:bg-gray-50 border-gray-200"
               }`}
             >
               {tab}
@@ -109,7 +109,7 @@ export default function MyOrdersPage() {
             <div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin" />
           </div>
         ) : filteredOrders.length === 0 ? (
-          <div className="bg-glass-bg border border-glass-border rounded-[20px] p-[60px] text-center">
+          <div className="bg-white border-2 border-gray-200 rounded-[20px] p-[60px] text-center shadow-sm">
             <span className="text-[4rem] mb-[16px] block opacity-80">🛍️</span>
             <h3 className="font-heading text-[1.4rem] font-[700] text-text-white mb-[8px]">No {activeTab} orders</h3>
             <p className="text-text-muted">You don't have any orders in this category yet.</p>
@@ -123,12 +123,12 @@ export default function MyOrdersPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-glass-bg border border-glass-border rounded-[20px] overflow-hidden"
+                  className="bg-white border-2 border-gray-200 rounded-[20px] overflow-hidden shadow-sm"
                 >
-                  <div className="p-[24px] border-b border-glass-border bg-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-[16px]">
+                  <div className="p-[24px] border-b-2 border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-[16px]">
                     <div>
-                      <span className="text-text-light text-[0.85rem]">Order Reference</span>
-                      <h3 className="font-heading font-[700] text-white text-[1.1rem]">
+                      <span className="text-text-light text-[0.85rem] font-medium">Order Reference</span>
+                      <h3 className="font-heading font-[700] text-text-white text-[1.1rem]">
                         {order.orderReference}
                       </h3>
                       <p className="text-text-muted text-[0.8rem] mt-[4px]">
@@ -151,7 +151,7 @@ export default function MyOrdersPage() {
                     {order.orderStatus !== "CANCELLED" && (
                       <div className="mb-[32px]">
                         <div className="flex items-center justify-between relative">
-                          <div className="absolute top-[12px] left-[10%] right-[10%] h-[2px] bg-glass-border z-0"></div>
+                          <div className="absolute top-[12px] left-[10%] right-[10%] h-[2px] bg-gray-200 z-0"></div>
                           {orderStatusSteps.map((step, idx) => {
                             const stepIndex = orderStatusSteps.indexOf(order.orderStatus);
                             const isCompleted = idx <= stepIndex;
@@ -161,7 +161,7 @@ export default function MyOrdersPage() {
                               <div key={step} className="flex flex-col items-center gap-[8px] relative z-10 w-[20%]">
                                 <div
                                   className={`w-[24px] h-[24px] rounded-full flex items-center justify-center transition-colors ${
-                                    isCurrent ? "bg-gold text-[#12041A] shadow-[0_0_15px_rgba(216,154,43,0.5)]" : isCompleted ? "bg-gold text-[#12041A]" : "bg-bg-deep border-2 border-glass-border text-transparent"
+                                    isCurrent ? "bg-gold text-white shadow-[0_0_15px_rgba(216,154,43,0.5)]" : isCompleted ? "bg-gold text-white" : "bg-white border-[3px] border-gray-200 text-transparent"
                                   }`}
                                 >
                                   {isCompleted && <span className="text-[0.7rem] font-[700]">✓</span>}
@@ -184,15 +184,15 @@ export default function MyOrdersPage() {
                     <h4 className="font-[600] text-text-white mb-[16px]">Items Ordered</h4>
                     <div className="flex flex-col gap-[12px]">
                       {order.items.map((item: any) => (
-                        <div key={item.id} className="flex items-center gap-[16px] p-[12px] rounded-[12px] bg-white/5 border border-white/5">
-                          <div className="w-[48px] h-[48px] rounded-[8px] bg-black/40 overflow-hidden flex-shrink-0">
+                        <div key={item.id} className="flex items-center gap-[16px] p-[12px] rounded-[12px] bg-gray-50 border border-gray-200">
+                          <div className="w-[48px] h-[48px] rounded-[8px] bg-gray-200 overflow-hidden flex-shrink-0">
                             <img src={item.product?.image || "/images/menu/masala_chai.png"} alt={item.product?.name} className="w-full h-full object-cover" />
                           </div>
                           <div className="flex-1">
-                            <h5 className="font-[600] text-white text-[0.95rem]">{item.product?.name || "Unknown Product"}</h5>
-                            <p className="text-text-muted text-[0.85rem]">Qty: {item.quantity} × ₹{item.price}</p>
+                            <h5 className="font-[600] text-text-white text-[0.95rem]">{item.product?.name || "Unknown Product"}</h5>
+                            <p className="text-text-muted text-[0.85rem] font-medium">Qty: {item.quantity} × ₹{item.price}</p>
                           </div>
-                          <div className="font-[600] text-white">
+                          <div className="font-[600] text-text-white">
                             ₹{item.quantity * item.price}
                           </div>
                         </div>

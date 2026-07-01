@@ -274,9 +274,9 @@ export default function BookingModal() {
 
             {/* Step Indicators for Mobile */}
             <div className="md:hidden flex items-center justify-between gap-[8px] mb-[24px]">
-               <div className={`h-[4px] rounded-full flex-1 transition-colors duration-300 ${mobileStep >= 1 ? 'bg-gold' : 'bg-white/10'}`} />
-               <div className={`h-[4px] rounded-full flex-1 transition-colors duration-300 ${mobileStep >= 2 ? 'bg-gold' : 'bg-white/10'}`} />
-               <div className={`h-[4px] rounded-full flex-1 transition-colors duration-300 ${mobileStep >= 3 ? 'bg-gold' : 'bg-white/10'}`} />
+               <div className={`h-[4px] rounded-full flex-1 transition-colors duration-300 ${mobileStep >= 1 ? 'bg-gold' : 'bg-gray-200'}`} />
+               <div className={`h-[4px] rounded-full flex-1 transition-colors duration-300 ${mobileStep >= 2 ? 'bg-gold' : 'bg-gray-200'}`} />
+               <div className={`h-[4px] rounded-full flex-1 transition-colors duration-300 ${mobileStep >= 3 ? 'bg-gold' : 'bg-gray-200'}`} />
             </div>
 
             <form className="booking-form" onSubmit={handleSubmit}>
@@ -287,7 +287,7 @@ export default function BookingModal() {
                     type="date" 
                     id="bk-date" 
                     className="form-select" 
-                    style={{ colorScheme: 'dark' }} 
+                    style={{ colorScheme: 'light' }} 
                     required 
                     min={new Date().toISOString().split('T')[0]}
                     value={bookingData.date}
@@ -304,7 +304,7 @@ export default function BookingModal() {
                     onChange={(e) => setBookingData({ duration: parseInt(e.target.value) })}
                   >
                     {[1, 2, 3, 4, 5].map(h => (
-                      <option key={h} value={h} style={{ background: '#16131D', color: '#fff' }}>{h} Hour{h > 1 ? 's' : ''}</option>
+                      <option key={h} value={h} style={{ background: '#ffffff', color: '#111827' }}>{h} Hour{h > 1 ? 's' : ''}</option>
                     ))}
                   </select>
                 </div>
@@ -319,21 +319,21 @@ export default function BookingModal() {
                   >
                     {selectedStudio?.name === "NAMAS Studio 1" ? (
                       <>
-                        <option style={{ background: '#16131D', color: '#fff' }}>1 - 5 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>5 - 10 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>10 - 20 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>20 - 30 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>30 - 40 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>40 - 50 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>1 - 5 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>5 - 10 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>10 - 20 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>20 - 30 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>30 - 40 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>40 - 50 Guests</option>
                       </>
                     ) : (
                       <>
-                        <option style={{ background: '#16131D', color: '#fff' }}>1 - 5 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>5 - 10 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>10 - 20 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>20 - 40 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>40 - 60 Guests</option>
-                        <option style={{ background: '#16131D', color: '#fff' }}>60 - 90 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>1 - 5 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>5 - 10 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>10 - 20 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>20 - 40 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>40 - 60 Guests</option>
+                        <option style={{ background: '#ffffff', color: '#111827' }}>60 - 90 Guests</option>
                       </>
                     )}
                   </select>
@@ -403,14 +403,14 @@ export default function BookingModal() {
               </div>
 
               {/* Booking summary */}
-              <div className={`booking-summary ${mobileStep !== 3 ? 'hidden md:flex' : ''} flex-col gap-3 p-4 bg-white/5 rounded-lg border border-white/10 mt-4 w-full`}>
-                <div className="flex justify-between items-center text-sm text-gray-400">
+              <div className={`booking-summary ${mobileStep !== 3 ? 'hidden md:flex' : ''} flex-col gap-3 p-4 bg-gray-50 rounded-lg border border-glass-border shadow-sm mt-4 w-full`}>
+                <div className="flex justify-between items-center text-sm text-text-muted">
                   <span>Studio Rate</span>
                   <span>₹{selectedStudio?.price || 0} × {bookingData.duration}hr</span>
                 </div>
-                <div className="flex justify-between items-center font-bold text-lg pt-3 border-t border-white/10">
+                <div className="flex justify-between items-center font-bold text-lg pt-3 border-t border-glass-border text-text-white">
                   <span>Total</span>
-                  <span className="text-[var(--primary)]">₹{(selectedStudio?.price ? selectedStudio.price * bookingData.duration : 0).toLocaleString("en-IN")}</span>
+                  <span className="text-gold">₹{(selectedStudio?.price ? selectedStudio.price * bookingData.duration : 0).toLocaleString("en-IN")}</span>
                 </div>
               </div>
 
@@ -423,7 +423,7 @@ export default function BookingModal() {
                   checked={agreedToRefunds}
                   onChange={(e) => setAgreedToRefunds(e.target.checked)}
                 />
-                <label htmlFor="refund-consent" className="text-sm text-white/60 cursor-pointer">
+                <label htmlFor="refund-consent" className="text-sm text-text-muted cursor-pointer">
                   I agree to the <a href="/refunds" target="_blank" className="text-gold hover:underline">Cancellation and Refund Policy</a>.
                 </label>
               </div>
@@ -431,7 +431,7 @@ export default function BookingModal() {
               {/* Mobile Next/Back Buttons */}
               <div className="md:hidden flex gap-[12px] mt-[24px]">
                 {mobileStep > 1 && (
-                  <button type="button" className="btn flex-1 bg-white/5 border border-white/10 text-white min-h-[48px]" onClick={() => setMobileStep(mobileStep - 1 as 1 | 2)}>
+                  <button type="button" className="btn flex-1 bg-gray-50 border border-glass-border text-text-white hover:bg-gray-100 min-h-[48px]" onClick={() => setMobileStep(mobileStep - 1 as 1 | 2)}>
                     Back
                   </button>
                 )}

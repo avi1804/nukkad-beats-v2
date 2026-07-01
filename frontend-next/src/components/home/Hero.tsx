@@ -18,20 +18,23 @@ export default function Hero() {
       className="min-h-screen flex items-center relative overflow-hidden pt-[80px]"
       id="home"
     >
-      <div className="absolute inset-0 bg-bg-deep z-0">
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/hero-bg-music.png)' }}
+        />
+        {/* Premium gradient overlay: solid white on the left for text readability, fading to transparent on the right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-white/20 backdrop-blur-[2px] z-[1]" />
+        
+        {/* Subtle, glowing ambient orbs */}
         <motion.div
           style={{ y: yOrb1 }}
-          className="absolute rounded-full pointer-events-none blur-[120px] w-[600px] h-[600px] bg-burgundy-light -top-[100px] -left-[100px] animate-orb-float"
+          className="absolute rounded-full pointer-events-none blur-[120px] w-[600px] h-[600px] bg-gold/10 -top-[100px] -left-[100px] animate-orb-float z-[2]"
         />
         <motion.div
           style={{ y: yOrb2, animationDirection: "alternate-reverse", animationDuration: "14s" }}
-          className="absolute rounded-full pointer-events-none blur-[120px] w-[500px] h-[500px] bg-gold-dim -bottom-[50px] -right-[50px] animate-orb-float"
+          className="absolute rounded-full pointer-events-none blur-[120px] w-[500px] h-[500px] bg-purple/5 -bottom-[50px] -right-[50px] animate-orb-float z-[2]"
         />
-        <motion.div
-          style={{ y: yOrb3, animationDuration: "10s" }}
-          className="absolute rounded-full pointer-events-none blur-[120px] w-[400px] h-[400px] bg-[rgba(47,107,82,0.08)] top-[40%] left-[50%] animate-orb-float"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(155,93,229,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,180,216,0.06)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)] z-[1]" />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-[24px] relative z-[2] grid grid-cols-1 md:grid-cols-2 gap-[60px] items-center w-full">
@@ -49,13 +52,13 @@ export default function Hero() {
             Now Open in Your City
           </div>
 
-          <h1 className="font-heading text-[clamp(2.4rem,10vw,3.5rem)] md:text-[clamp(3rem,6vw,5.5rem)] font-[800] leading-[1.05] tracking-[-0.02em] mb-[24px]">
+          <h1 className="font-heading text-[clamp(2.4rem,10vw,3.5rem)] md:text-[clamp(3rem,6vw,5.5rem)] font-[800] leading-[1.05] tracking-[-0.02em] mb-[24px] text-text-white">
             Nukkad
             <br />
             <span className="gradient-text">Beats</span>
           </h1>
 
-          <p className="text-[1.15rem] color-text-light mb-[40px] leading-[1.7] max-w-[460px] text-[rgba(247,245,242,0.70)]">
+          <p className="text-[1.15rem] text-text-light font-medium mb-[40px] leading-[1.7] max-w-[460px] drop-shadow-sm">
             Experience premium karaoke studios and café vibes like never before.
             Private rooms, craft beverages, and unforgettable moments — all
             under one roof.
@@ -63,16 +66,15 @@ export default function Hero() {
 
           <div className="flex flex-col md:flex-row gap-[16px] mb-[32px] md:mb-[56px]">
             <button
-              className="inline-flex items-center justify-center gap-[8px] px-[24px] py-[14px] md:py-[12px] rounded-[14px] font-body text-[0.95rem] md:text-[0.9rem] font-[600] transition-all duration-300 relative overflow-hidden text-center cursor-pointer bg-[#FFD166] text-[#210B2C] border border-[rgba(255,209,102,0.15)] shadow-[0_8px_24px_rgba(255,209,102,0.18)] hover:bg-[#F4C852] hover:-translate-y-[2px] hover:shadow-[0_12px_30px_rgba(255,209,102,0.25)] active:translate-y-0 active:shadow-[0_4px_12px_rgba(255,209,102,0.15)]"
+              className="btn btn-primary px-[24px] py-[14px] md:py-[12px] text-[0.95rem] md:text-[0.9rem]"
               onClick={() => {
                 document.getElementById("studios")?.scrollIntoView({ behavior: "smooth" });
-                // Booking modal trigger logic will go here
               }}
             >
               Book a Studio
             </button>
             <button
-              className="inline-flex items-center justify-center gap-[8px] px-[24px] py-[14px] md:py-[12px] rounded-[14px] font-body text-[0.95rem] md:text-[0.9rem] font-[600] transition-all duration-300 relative overflow-hidden text-center cursor-pointer bg-[rgba(188,150,230,0.08)] border border-[rgba(188,150,230,0.20)] text-[#BC96E6] backdrop-blur-[12px] hover:bg-[rgba(188,150,230,0.14)] hover:border-[rgba(188,150,230,0.35)] hover:-translate-y-[2px] hover:shadow-none active:translate-y-0"
+              className="btn btn-outline px-[24px] py-[14px] md:py-[12px] text-[0.95rem] md:text-[0.9rem]"
               onClick={() => {
                 document.getElementById("cafe")?.scrollIntoView({ behavior: "smooth" });
               }}
@@ -106,10 +108,10 @@ export default function Hero() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
-          <div className="flex gap-[14px] flex-col items-end">
+          <div className="flex gap-[14px] flex-col items-end text-text-white">
             <motion.div 
               whileHover={{ scale: 1.05, x: -10 }}
-              className="bg-glass-bg border border-glass-border backdrop-blur-[20px] rounded-[20px] px-[20px] py-[14px] flex items-center gap-[10px] text-[0.82rem] shadow-lg cursor-default"
+              className="glass-card px-[20px] py-[14px] flex items-center gap-[10px] text-[0.82rem] cursor-default"
             >
               <span className="text-[1.2rem]">🎙️</span>
               <div>
@@ -119,7 +121,7 @@ export default function Hero() {
             </motion.div>
             <motion.div 
               whileHover={{ scale: 1.05, x: -10 }}
-              className="bg-glass-bg border border-glass-border backdrop-blur-[20px] rounded-[20px] px-[20px] py-[14px] flex items-center gap-[10px] text-[0.82rem] shadow-lg cursor-default mr-[40px]"
+              className="glass-card px-[20px] py-[14px] flex items-center gap-[10px] text-[0.82rem] cursor-default mr-[40px]"
             >
               <span className="text-[1.2rem]">🍵</span>
               <div>
@@ -129,7 +131,7 @@ export default function Hero() {
             </motion.div>
             <motion.div 
               whileHover={{ scale: 1.05, x: -10 }}
-              className="bg-glass-bg border border-glass-border backdrop-blur-[20px] rounded-[20px] px-[20px] py-[14px] flex items-center gap-[10px] text-[0.82rem] shadow-lg cursor-default"
+              className="glass-card px-[20px] py-[14px] flex items-center gap-[10px] text-[0.82rem] cursor-default"
             >
               <span className="text-[1.2rem]">🎂</span>
               <div>
@@ -141,9 +143,9 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <div className="hidden md:flex absolute bottom-[32px] left-1/2 -translate-x-1/2 flex-col items-center gap-[8px] z-[2] text-text-muted text-[0.75rem] tracking-[0.1em]">
-        <div className="w-[22px] h-[36px] border-[2px] border-[rgba(255,255,255,0.2)] rounded-[12px] flex justify-center pt-[6px]">
-          <span className="w-[3px] h-[8px] bg-[#BC96E6] rounded-[2px] animate-scroll-dot" />
+      <div className="hidden md:flex absolute bottom-[32px] left-1/2 -translate-x-1/2 flex-col items-center gap-[8px] z-[2] text-text-white font-semibold text-[0.75rem] tracking-[0.1em] drop-shadow-md bg-white/50 px-4 py-2 rounded-full backdrop-blur-sm">
+        <div className="w-[22px] h-[36px] border-[2px] border-text-white rounded-[12px] flex justify-center pt-[6px]">
+          <span className="w-[3px] h-[8px] bg-purple rounded-[2px] animate-scroll-dot" />
         </div>
         <span>Scroll</span>
       </div>

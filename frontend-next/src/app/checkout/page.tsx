@@ -113,14 +113,14 @@ export default function CheckoutPage() {
           <div className="flex-1 flex flex-col gap-[32px]">
             {/* Login Prompt if not logged in */}
             {!isLoggedIn && (
-              <div className="bg-burgundy/10 border border-burgundy/30 rounded-[16px] p-[24px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[16px]">
+              <div className="bg-red-50 border border-red-200 rounded-[16px] p-[24px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[16px]">
                 <div>
-                  <h3 className="font-[600] text-white text-[1.1rem] mb-[4px]">Sign in to proceed</h3>
-                  <p className="text-text-muted text-[0.9rem]">You need an account to track your orders and manage bookings.</p>
+                  <h3 className="font-[600] text-red-600 text-[1.1rem] mb-[4px]">Sign in to proceed</h3>
+                  <p className="text-red-500 text-[0.9rem]">You need an account to track your orders and manage bookings.</p>
                 </div>
                 <button
                   onClick={() => setAuthModalOpen(true)}
-                  className="whitespace-nowrap px-[24px] py-[10px] rounded-[12px] bg-burgundy hover:bg-burgundy/80 text-white font-[600] transition-colors"
+                  className="whitespace-nowrap px-[24px] py-[10px] rounded-[12px] bg-red-600 hover:bg-red-700 text-white font-[600] transition-colors"
                 >
                   Sign In
                 </button>
@@ -128,8 +128,8 @@ export default function CheckoutPage() {
             )}
 
             {/* Order Items */}
-            <div className="bg-glass-bg border border-glass-border rounded-[20px] p-[24px]">
-              <h2 className="font-heading text-[1.2rem] font-[700] text-white mb-[24px] border-b border-glass-border pb-[16px]">
+            <div className="bg-white border-2 border-gray-200 rounded-[20px] p-[24px] shadow-sm">
+              <h2 className="font-heading text-[1.2rem] font-[700] text-text-white mb-[24px] border-b border-gray-200 pb-[16px]">
                 Order Review
               </h2>
               <div className="flex flex-col gap-[16px]">
@@ -137,11 +137,11 @@ export default function CheckoutPage() {
                   .filter((item) => item?.product)
                   .map((item) => (
                   <div key={item.product.id} className="flex gap-[16px]">
-                    <div className="w-[60px] h-[60px] rounded-[8px] bg-black/40 overflow-hidden flex-shrink-0">
+                    <div className="w-[60px] h-[60px] rounded-[8px] bg-gray-100 border border-gray-200 overflow-hidden flex-shrink-0">
                       <img src={item.product.image || "/images/menu/masala_chai.png"} alt={item.product.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
-                      <h4 className="font-[600] text-white text-[0.95rem]">{item.product.name}</h4>
+                      <h4 className="font-[600] text-text-white text-[0.95rem]">{item.product.name}</h4>
                       <p className="text-text-muted text-[0.85rem]">Qty: {item.quantity}</p>
                     </div>
                     <div className="flex flex-col justify-center items-end">
@@ -153,13 +153,13 @@ export default function CheckoutPage() {
             </div>
 
             {/* Payment Method */}
-            <div className="bg-glass-bg border border-glass-border rounded-[20px] p-[24px]">
-              <h2 className="font-heading text-[1.2rem] font-[700] text-white mb-[24px] border-b border-glass-border pb-[16px]">
+            <div className="bg-white border-2 border-gray-200 rounded-[20px] p-[24px] shadow-sm">
+              <h2 className="font-heading text-[1.2rem] font-[700] text-text-white mb-[24px] border-b border-gray-200 pb-[16px]">
                 Payment Method
               </h2>
               <div className="flex flex-col gap-[12px]">
-                <label className={`flex items-center gap-[16px] p-[16px] rounded-[12px] border cursor-pointer transition-all ${paymentMethod === "ONLINE" ? "border-gold bg-gold/5" : "border-glass-border bg-white/5 hover:bg-white/10"}`}>
-                  <div className={`w-[20px] h-[20px] rounded-full border-2 flex items-center justify-center ${paymentMethod === "ONLINE" ? "border-gold" : "border-text-muted"}`}>
+                <label className={`flex items-center gap-[16px] p-[16px] rounded-[12px] border cursor-pointer transition-all ${paymentMethod === "ONLINE" ? "border-gold bg-yellow-50" : "border-gray-200 bg-gray-50 hover:bg-gray-100"}`}>
+                  <div className={`w-[20px] h-[20px] rounded-full border-2 flex items-center justify-center ${paymentMethod === "ONLINE" ? "border-gold" : "border-gray-400"}`}>
                     {paymentMethod === "ONLINE" && <div className="w-[10px] h-[10px] rounded-full bg-gold" />}
                   </div>
                   <input
@@ -171,14 +171,14 @@ export default function CheckoutPage() {
                     className="hidden"
                   />
                   <div className="flex-1">
-                    <h4 className="font-[600] text-white">Pay Online</h4>
+                    <h4 className="font-[600] text-text-white">Pay Online</h4>
                     <p className="text-text-muted text-[0.85rem]">UPI, Credit/Debit Cards, NetBanking via Razorpay</p>
                   </div>
                   <div className="text-[1.5rem]">💳</div>
                 </label>
 
-                <label className={`flex items-center gap-[16px] p-[16px] rounded-[12px] border cursor-pointer transition-all ${paymentMethod === "OFFLINE" ? "border-gold bg-gold/5" : "border-glass-border bg-white/5 hover:bg-white/10"}`}>
-                  <div className={`w-[20px] h-[20px] rounded-full border-2 flex items-center justify-center ${paymentMethod === "OFFLINE" ? "border-gold" : "border-text-muted"}`}>
+                <label className={`flex items-center gap-[16px] p-[16px] rounded-[12px] border cursor-pointer transition-all ${paymentMethod === "OFFLINE" ? "border-gold bg-yellow-50" : "border-gray-200 bg-gray-50 hover:bg-gray-100"}`}>
+                  <div className={`w-[20px] h-[20px] rounded-full border-2 flex items-center justify-center ${paymentMethod === "OFFLINE" ? "border-gold" : "border-gray-400"}`}>
                     {paymentMethod === "OFFLINE" && <div className="w-[10px] h-[10px] rounded-full bg-gold" />}
                   </div>
                   <input
@@ -190,7 +190,7 @@ export default function CheckoutPage() {
                     className="hidden"
                   />
                   <div className="flex-1">
-                    <h4 className="font-[600] text-white">Pay at Counter</h4>
+                    <h4 className="font-[600] text-text-white">Pay at Counter</h4>
                     <p className="text-text-muted text-[0.85rem]">Pay when your order is ready</p>
                   </div>
                   <div className="text-[1.5rem]">💵</div>
@@ -201,13 +201,13 @@ export default function CheckoutPage() {
 
           {/* Right Column: Order Summary */}
           <div className="lg:w-[380px] flex-shrink-0">
-            <div className="bg-glass-bg border border-glass-border rounded-[20px] p-[24px] sticky top-[120px]">
-              <h2 className="font-heading text-[1.2rem] font-[700] text-white mb-[24px]">
+            <div className="bg-white border-2 border-gray-200 rounded-[20px] p-[24px] sticky top-[120px] shadow-sm">
+              <h2 className="font-heading text-[1.2rem] font-[700] text-text-white mb-[24px]">
                 Order Summary
               </h2>
               
               <div className="flex flex-col gap-[16px] mb-[24px]">
-                <div className="flex justify-between text-white font-[700] text-[1.2rem]">
+                <div className="flex justify-between text-text-white font-[700] text-[1.2rem]">
                   <span>Total</span>
                   <span className="text-gold">₹{total.toFixed(2)}</span>
                 </div>
@@ -217,11 +217,11 @@ export default function CheckoutPage() {
                 <input 
                   type="checkbox" 
                   id="checkout-refund-consent"
-                  className="mt-1 cursor-pointer"
+                  className="mt-1 cursor-pointer accent-gold"
                   checked={agreedToRefunds}
                   onChange={(e) => setAgreedToRefunds(e.target.checked)}
                 />
-                <label htmlFor="checkout-refund-consent" className="text-sm text-white/60 cursor-pointer">
+                <label htmlFor="checkout-refund-consent" className="text-sm text-gray-600 cursor-pointer">
                   I agree to the <a href="/refunds" target="_blank" className="text-gold hover:underline">Refund Policy</a>.
                 </label>
               </div>
@@ -229,7 +229,7 @@ export default function CheckoutPage() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={isProcessing || !isLoggedIn || !agreedToRefunds}
-                className="w-full py-[14px] rounded-[14px] font-heading font-[700] text-[1.05rem] transition-all duration-300 border border-[rgba(255,209,102,0.15)] bg-[#FFD166] text-[#210B2C] shadow-[0_8px_24px_rgba(255,209,102,0.18)] hover:bg-[#F4C852] hover:-translate-y-[2px] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-[14px] rounded-[14px] font-heading font-[700] text-[1.05rem] transition-all duration-300 border border-[rgba(255,209,102,0.15)] bg-gold text-white shadow-md hover:shadow-lg hover:-translate-y-[2px] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isProcessing ? "Processing..." : "Place Order ✦"}
               </button>

@@ -62,12 +62,12 @@ export default function MobileNav() {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-        className="fixed bottom-[20px] left-[50%] -translate-x-[50%] z-[1000] w-[90%] max-w-[400px] h-[68px] md:hidden bg-[rgba(18,16,25,0.75)] backdrop-blur-[24px] border border-[rgba(255,255,255,0.08)] rounded-[24px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] px-[8px] flex items-center justify-between overflow-hidden"
+        className="fixed bottom-[20px] left-[50%] -translate-x-[50%] z-[1000] w-[90%] max-w-[400px] h-[68px] md:hidden bg-white/90 backdrop-blur-[24px] border border-glass-border rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] px-[8px] flex items-center justify-between overflow-hidden"
       >
         {/* Animated Background Indicator */}
         <div className="absolute inset-0 flex items-center px-[8px] pointer-events-none">
           <motion.div
-            className="h-[52px] w-[calc((100%-16px)/5)] bg-[rgba(255,255,255,0.08)] rounded-[18px] border border-[rgba(255,255,255,0.04)]"
+            className="h-[52px] w-[calc((100%-16px)/5)] bg-gray-100 rounded-[18px] border border-glass-border shadow-sm"
             animate={{
               x:
                 activeTab === "home" ? "0%" :
@@ -130,7 +130,7 @@ export default function MobileNav() {
           className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-[4px] cursor-pointer bg-transparent border-none"
         >
           {isLoggedIn ? (
-            <div className="w-[22px] h-[22px] rounded-full bg-gold flex items-center justify-center font-[800] text-[0.7rem] text-[#0D0B12]">
+            <div className="w-[22px] h-[22px] rounded-full bg-gold flex items-center justify-center font-[800] text-[0.7rem] text-[#0D0B12] shadow-sm">
               {user?.fullName?.[0]?.toUpperCase() || "U"}
             </div>
           ) : (

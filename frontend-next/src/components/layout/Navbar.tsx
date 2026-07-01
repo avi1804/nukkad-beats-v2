@@ -61,12 +61,12 @@ export default function Navbar() {
           borderBottomColor: "transparent"
         }}
         animate={{ 
-          backgroundColor: scrolled ? "rgba(11, 11, 15, 0.85)" : "transparent",
+          backgroundColor: scrolled ? "rgba(255, 255, 255, 0.85)" : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "blur(0px)",
-          borderBottomColor: scrolled ? "rgba(255, 255, 255, 0.08)" : "transparent",
+          borderBottomColor: scrolled ? "rgba(0, 0, 0, 0.05)" : "transparent",
           paddingTop: scrolled ? "12px" : "20px",
           paddingBottom: scrolled ? "12px" : "20px",
-          boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.4)" : "none"
+          boxShadow: scrolled ? "0 4px 30px rgba(0,0,0,0.05)" : "none"
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="fixed top-0 left-0 right-0 z-[1000] border-b"
@@ -82,7 +82,7 @@ export default function Navbar() {
               width={200}
               height={60}
               style={{ width: "auto" }}
-              className="h-[60px] w-auto max-w-[200px] object-contain transition-transform duration-300 ease-spring drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)] group-hover:scale-105"
+              className="h-[60px] w-auto max-w-[200px] object-contain transition-transform duration-300 ease-spring drop-shadow-[0_2px_8px_rgba(0,0,0,0.05)] group-hover:scale-105"
             />
           </Link>
 
@@ -143,29 +143,29 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-[12px]">
               {isLoggedIn ? (
                 <div className="relative group">
-                  <button className="flex items-center gap-[8px] pl-[8px] pr-[20px] py-[9px] rounded-[14px] text-[0.85rem] font-[600] border border-[rgba(188,150,230,0.20)] bg-[rgba(188,150,230,0.08)] text-[#BC96E6] backdrop-blur-[12px] transition-all hover:bg-[rgba(188,150,230,0.14)] hover:border-[rgba(188,150,230,0.35)] hover:-translate-y-[2px]">
-                    <div className="w-[28px] h-[28px] rounded-full bg-gold flex items-center justify-center font-[700] text-[0.9rem] text-[#0D0B12] shadow-[0_0_10px_rgba(216,154,43,0.4)]">
+                  <button className="flex items-center gap-[8px] pl-[8px] pr-[20px] py-[9px] rounded-[14px] text-[0.85rem] font-[600] border border-glass-border bg-white text-text-white shadow-sm transition-all hover:bg-gray-50 hover:border-gold/30 hover:-translate-y-[2px]">
+                    <div className="w-[28px] h-[28px] rounded-full bg-gold flex items-center justify-center font-[700] text-[0.9rem] text-[#0D0B12] shadow-sm">
                       {user?.fullName?.[0]?.toUpperCase() || "U"}
                     </div>
                     <span>{user?.fullName?.split(" ")[0] || "User"}</span>
                     <span className="text-[0.6rem] opacity-70">▼</span>
                   </button>
-                  <div className="absolute top-[calc(100%+10px)] right-0 bg-glass-bg backdrop-blur-[20px] border border-glass-border rounded-[12px] p-[8px] min-w-[160px] flex flex-col gap-[4px] opacity-0 invisible -translate-y-[10px] transition-all duration-300 ease-out-custom shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-[1000] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
+                  <div className="absolute top-[calc(100%+10px)] right-0 bg-white backdrop-blur-[20px] border border-glass-border rounded-[12px] p-[8px] min-w-[160px] flex flex-col gap-[4px] opacity-0 invisible -translate-y-[10px] transition-all duration-300 ease-out-custom shadow-[0_10px_30px_rgba(0,0,0,0.08)] z-[1000] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
                     <Link
                       href="/my-orders"
-                      className="px-[16px] py-[10px] text-text-light text-[0.85rem] rounded-[8px] transition-colors duration-200 hover:bg-white/5 hover:text-text-white"
+                      className="px-[16px] py-[10px] text-text-light text-[0.85rem] rounded-[8px] transition-colors duration-200 hover:bg-gray-50 hover:text-text-white"
                     >
                       My Orders
                     </Link>
                     <Link
                       href="/my-bookings"
-                      className="px-[16px] py-[10px] text-text-light text-[0.85rem] rounded-[8px] transition-colors duration-200 hover:bg-white/5 hover:text-text-white"
+                      className="px-[16px] py-[10px] text-text-light text-[0.85rem] rounded-[8px] transition-colors duration-200 hover:bg-gray-50 hover:text-text-white"
                     >
                       My Bookings
                     </Link>
                     <Link
                       href="/settings"
-                      className="px-[16px] py-[10px] text-text-light text-[0.85rem] rounded-[8px] transition-colors duration-200 hover:bg-white/5 hover:text-text-white"
+                      className="px-[16px] py-[10px] text-text-light text-[0.85rem] rounded-[8px] transition-colors duration-200 hover:bg-gray-50 hover:text-text-white"
                     >
                       Settings
                     </Link>
@@ -178,14 +178,14 @@ export default function Navbar() {
               ) : null}
               {!isLoggedIn && (
                 <button
-                  className="flex items-center justify-center gap-[8px] px-[20px] py-[9px] rounded-[14px] font-body text-[0.85rem] font-[600] transition-all duration-300 text-text-light hover:text-white hover:-translate-y-[2px]"
+                  className="flex items-center justify-center gap-[8px] px-[20px] py-[9px] rounded-[14px] font-body text-[0.85rem] font-[600] transition-all duration-300 text-text-light hover:text-text-white hover:-translate-y-[2px]"
                   onClick={() => setAuthModalOpen(true)}
                 >
                   Sign In
                 </button>
               )}
               <button
-                className="flex items-center justify-center gap-[8px] px-[20px] py-[9px] rounded-[14px] font-body text-[0.85rem] font-[600] transition-all duration-300 border border-[rgba(255,209,102,0.15)] bg-[#FFD166] text-[#210B2C] shadow-[0_8px_24px_rgba(255,209,102,0.18)] hover:bg-[#F4C852] hover:-translate-y-[2px] hover:shadow-[0_12px_30px_rgba(255,209,102,0.25)] active:translate-y-0 active:shadow-[0_4px_12px_rgba(255,209,102,0.15)]"
+                className="btn btn-primary px-[20px] py-[9px] text-[0.85rem]"
                 onClick={() => {
                   if (!isLoggedIn) {
                     setAuthModalOpen(true);
@@ -216,7 +216,7 @@ export default function Navbar() {
               {/* Mobile Auth Button (Sign In / User Profile) */}
               {!isLoggedIn && (
                 <button
-                  className="flex md:hidden items-center justify-center px-[12px] py-[6px] rounded-[10px] font-body text-[0.78rem] font-[600] border border-white/10 bg-white/5 text-text-light active:bg-white/10 transition-all duration-200"
+                  className="flex md:hidden items-center justify-center px-[12px] py-[6px] rounded-[10px] font-body text-[0.78rem] font-[600] border border-glass-border bg-gray-50 text-text-light active:bg-gray-100 transition-all duration-200"
                   onClick={() => setAuthModalOpen(true)}
                 >
                   Sign In
@@ -226,9 +226,9 @@ export default function Navbar() {
                 <div className="relative md:hidden">
                   <button
                     onClick={toggleMobileUserMenu}
-                    className="flex items-center gap-[4px] pl-[6px] pr-[10px] py-[5px] rounded-[10px] text-[0.78rem] font-[600] border border-[rgba(188,150,230,0.20)] bg-[rgba(188,150,230,0.08)] text-[#BC96E6] backdrop-blur-[12px]"
+                    className="flex items-center gap-[4px] pl-[6px] pr-[10px] py-[5px] rounded-[10px] text-[0.78rem] font-[600] border border-glass-border bg-white text-text-white shadow-sm"
                   >
-                    <div className="w-[20px] h-[20px] rounded-full bg-gold flex items-center justify-center font-[700] text-[0.75rem] text-[#0D0B12] shadow-[0_0_6px_rgba(216,154,43,0.3)]">
+                    <div className="w-[20px] h-[20px] rounded-full bg-gold flex items-center justify-center font-[700] text-[0.75rem] text-[#0D0B12] shadow-sm">
                       {user?.fullName?.[0]?.toUpperCase() || "U"}
                     </div>
                     <span>{user?.fullName?.split(" ")[0] || "User"}</span>
@@ -236,27 +236,27 @@ export default function Navbar() {
                   </button>
                   {mobileUserMenuOpen && (
                     <div 
-                      className="absolute top-[calc(100%+6px)] right-0 bg-[#0B0B0F]/97 backdrop-blur-[20px] border border-glass-border rounded-[10px] p-[6px] min-w-[130px] flex flex-col gap-[2px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-[1001]"
+                      className="absolute top-[calc(100%+6px)] right-0 bg-white/95 backdrop-blur-[20px] border border-glass-border rounded-[10px] p-[6px] min-w-[130px] flex flex-col gap-[2px] shadow-[0_10px_30px_rgba(0,0,0,0.1)] z-[1001]"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Link
                         href="/my-orders"
                         onClick={() => setMobileUserMenuOpen(false)}
-                        className="px-[12px] py-[8px] text-text-light text-[0.78rem] rounded-[6px] transition-colors duration-200 hover:bg-white/5 hover:text-text-white"
+                        className="px-[12px] py-[8px] text-text-light text-[0.78rem] rounded-[6px] transition-colors duration-200 hover:bg-gray-50 hover:text-text-white"
                       >
                         My Orders
                       </Link>
                       <Link
                         href="/my-bookings"
                         onClick={() => setMobileUserMenuOpen(false)}
-                        className="px-[12px] py-[8px] text-text-light text-[0.78rem] rounded-[6px] transition-colors duration-200 hover:bg-white/5 hover:text-text-white"
+                        className="px-[12px] py-[8px] text-text-light text-[0.78rem] rounded-[6px] transition-colors duration-200 hover:bg-gray-50 hover:text-text-white"
                       >
                         My Bookings
                       </Link>
                       <Link
                         href="/settings"
                         onClick={() => setMobileUserMenuOpen(false)}
-                        className="px-[12px] py-[8px] text-text-light text-[0.78rem] rounded-[6px] transition-colors duration-200 hover:bg-white/5 hover:text-text-white"
+                        className="px-[12px] py-[8px] text-text-light text-[0.78rem] rounded-[6px] transition-colors duration-200 hover:bg-gray-50 hover:text-text-white"
                       >
                         Settings
                       </Link>

@@ -54,18 +54,18 @@ export default function PaymentDrawer({ isOpen, onClose, payment, onPaymentUpdat
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="relative w-full max-w-[500px] h-full bg-bg-deep border-l border-white/10 shadow-2xl flex flex-col overflow-hidden"
+          className="relative w-full max-w-[500px] h-full bg-white border-l border-gray-200 shadow-2xl flex flex-col overflow-hidden"
         >
           {/* Header */}
-          <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
+          <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
             <div>
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold text-text-white flex items-center gap-2">
                 <Receipt className="text-gold" size={20} />
                 Payment Details
               </h2>
               <p className="text-sm text-text-muted mt-1">{payment.reference}</p>
             </div>
-            <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors text-text-muted hover:text-white">
+            <button onClick={onClose} className="p-2 hover:bg-gray-200 rounded-full transition-colors text-text-muted hover:text-gray-900">
               <X size={20} />
             </button>
           </div>
@@ -91,45 +91,45 @@ export default function PaymentDrawer({ isOpen, onClose, payment, onPaymentUpdat
             </div>
 
             {/* Customer Details */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-5">
               <h3 className="text-sm font-semibold text-text-muted mb-4 uppercase tracking-wider flex items-center gap-2">
                 <User size={16} /> Customer Details
               </h3>
               <div className="flex flex-col gap-3">
                 <div className="flex justify-between">
                   <span className="text-text-muted">Name</span>
-                  <span className="font-medium text-white">{payment.customerName}</span>
+                  <span className="font-medium text-text-white">{payment.customerName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">Email</span>
-                  <span className="font-medium text-white">{payment.customerEmail || "N/A"}</span>
+                  <span className="font-medium text-text-white">{payment.customerEmail || "N/A"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">Phone</span>
-                  <span className="font-medium text-white">{payment.customerPhone || "N/A"}</span>
+                  <span className="font-medium text-text-white">{payment.customerPhone || "N/A"}</span>
                 </div>
               </div>
             </div>
 
             {/* Transaction Details */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-5">
               <h3 className="text-sm font-semibold text-text-muted mb-4 uppercase tracking-wider flex items-center gap-2">
                 <Store size={16} /> Transaction Details
               </h3>
               <div className="flex flex-col gap-3">
                 <div className="flex justify-between">
                   <span className="text-text-muted">Type</span>
-                  <span className={`font-medium ${isStudio ? 'text-purple-400' : 'text-orange-400'}`}>{payment.type}</span>
+                  <span className={`font-medium ${isStudio ? 'text-purple-600' : 'text-orange-500'}`}>{payment.type}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">Date & Time</span>
-                  <span className="font-medium text-white">{new Date(payment.date).toLocaleString()}</span>
+                  <span className="font-medium text-text-white">{new Date(payment.date).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">Payment Method</span>
-                  <span className="font-medium text-white uppercase">{payment.method}</span>
+                  <span className="font-medium text-text-white uppercase">{payment.method}</span>
                 </div>
-                <div className="flex justify-between pt-3 border-t border-white/10 mt-1">
+                <div className="flex justify-between pt-3 border-t border-gray-200 mt-1">
                   <span className="text-text-muted font-semibold">Total Amount</span>
                   <span className="font-bold text-xl text-gold">₹{payment.amount.toLocaleString("en-IN")}</span>
                 </div>
@@ -138,13 +138,13 @@ export default function PaymentDrawer({ isOpen, onClose, payment, onPaymentUpdat
 
             {/* Specific Items (Cafe) or Studio Details */}
             {payment.items && payment.items.length > 0 && (
-              <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+              <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-5">
                 <h3 className="text-sm font-semibold text-text-muted mb-4 uppercase tracking-wider">Order Items</h3>
                 <div className="flex flex-col gap-3">
                   {payment.items.map((item: any, idx: number) => (
                     <div key={idx} className="flex justify-between items-center text-sm">
-                      <span className="text-white">{item.product?.name || "Item"} <span className="text-text-muted">x{item.quantity}</span></span>
-                      <span className="text-text-light">₹{item.price * item.quantity}</span>
+                      <span className="text-text-white">{item.product?.name || "Item"} <span className="text-text-muted">x{item.quantity}</span></span>
+                      <span className="text-text-light font-medium">₹{item.price * item.quantity}</span>
                     </div>
                   ))}
                 </div>
@@ -152,20 +152,20 @@ export default function PaymentDrawer({ isOpen, onClose, payment, onPaymentUpdat
             )}
 
             {isStudio && payment.studioDetails && (
-              <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+              <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-5">
                 <h3 className="text-sm font-semibold text-text-muted mb-4 uppercase tracking-wider">Studio Details</h3>
                 <div className="flex flex-col gap-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-text-muted">Studio</span>
-                    <span className="text-white font-medium">{payment.studioDetails.name}</span>
+                    <span className="text-text-white font-medium">{payment.studioDetails.name}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-text-muted">Booking Date</span>
-                    <span className="text-white font-medium">{new Date(payment.studioDetails.date).toLocaleDateString()}</span>
+                    <span className="text-text-white font-medium">{new Date(payment.studioDetails.date).toLocaleDateString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-text-muted">Time Slot</span>
-                    <span className="text-white font-medium">{payment.studioDetails.time}</span>
+                    <span className="text-text-white font-medium">{payment.studioDetails.time}</span>
                   </div>
                 </div>
               </div>
@@ -174,18 +174,18 @@ export default function PaymentDrawer({ isOpen, onClose, payment, onPaymentUpdat
           </div>
 
           {/* Action Footer */}
-          <div className="p-6 bg-glass-bg border-t border-glass-border flex flex-col gap-3">
+          <div className="p-6 bg-gray-50 border-t border-gray-200 flex flex-col gap-3">
             {isPending && (
               <div className="flex gap-3">
                 <button 
                   onClick={() => handleAction("reject")}
-                  className="flex-1 py-3 px-4 rounded-xl font-bold bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-colors"
+                  className="flex-1 py-3 px-4 rounded-xl font-bold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors"
                 >
                   Reject
                 </button>
                 <button 
                   onClick={() => handleAction("verify")}
-                  className="flex-1 py-3 px-4 rounded-xl font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors"
+                  className="flex-1 py-3 px-4 rounded-xl font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-100 transition-colors"
                 >
                   Verify Payment
                 </button>
@@ -195,7 +195,7 @@ export default function PaymentDrawer({ isOpen, onClose, payment, onPaymentUpdat
             {isVerified && (
               <button 
                 onClick={() => handleAction("pending")}
-                className="w-full py-3 px-4 rounded-xl font-bold bg-white/5 text-text-light border border-white/10 hover:bg-white/10 transition-colors"
+                className="w-full py-3 px-4 rounded-xl font-bold bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors"
               >
                 Mark as Pending
               </button>
@@ -204,7 +204,7 @@ export default function PaymentDrawer({ isOpen, onClose, payment, onPaymentUpdat
             {isRejected && (
               <button 
                 onClick={() => handleAction("pending")}
-                className="w-full py-3 px-4 rounded-xl font-bold bg-white/5 text-text-light border border-white/10 hover:bg-white/10 transition-colors"
+                className="w-full py-3 px-4 rounded-xl font-bold bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors"
               >
                 Move back to Pending
               </button>

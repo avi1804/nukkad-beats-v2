@@ -152,23 +152,23 @@ export default function AdminPayments() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
           <p className="text-text-muted text-xs uppercase tracking-wider font-semibold mb-1">Total Payments</p>
-          <h3 className="text-2xl font-bold">{stats.total}</h3>
+          <h3 className="text-2xl font-bold text-text-white">{stats.total}</h3>
         </div>
-        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
-          <p className="text-amber-500 text-xs uppercase tracking-wider font-semibold mb-1">Pending</p>
-          <h3 className="text-2xl font-bold text-amber-400">{stats.pending}</h3>
+        <div className="bg-amber-50 border border-amber-200 shadow-sm rounded-xl p-4">
+          <p className="text-amber-600 text-xs uppercase tracking-wider font-semibold mb-1">Pending</p>
+          <h3 className="text-2xl font-bold text-amber-500">{stats.pending}</h3>
         </div>
-        <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4">
-          <p className="text-emerald-500 text-xs uppercase tracking-wider font-semibold mb-1">Verified</p>
-          <h3 className="text-2xl font-bold text-emerald-400">{stats.verified}</h3>
+        <div className="bg-emerald-50 border border-emerald-200 shadow-sm rounded-xl p-4">
+          <p className="text-emerald-600 text-xs uppercase tracking-wider font-semibold mb-1">Verified</p>
+          <h3 className="text-2xl font-bold text-emerald-500">{stats.verified}</h3>
         </div>
-        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
-          <p className="text-red-500 text-xs uppercase tracking-wider font-semibold mb-1">Rejected</p>
-          <h3 className="text-2xl font-bold text-red-400">{stats.rejected}</h3>
+        <div className="bg-red-50 border border-red-200 shadow-sm rounded-xl p-4">
+          <p className="text-red-600 text-xs uppercase tracking-wider font-semibold mb-1">Rejected</p>
+          <h3 className="text-2xl font-bold text-red-500">{stats.rejected}</h3>
         </div>
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4">
           <p className="text-gold text-xs uppercase tracking-wider font-semibold mb-1">Today's Revenue</p>
           <h3 className="text-2xl font-bold text-gold">₹{stats.todayRevenue.toLocaleString()}</h3>
         </div>
@@ -183,14 +183,14 @@ export default function AdminPayments() {
             placeholder="Search by Ref or Customer Name..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-text-muted outline-none focus:border-gold/50 transition-colors"
+            className="w-full bg-white border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-text-white placeholder:text-text-muted outline-none focus:border-gold/50 transition-colors shadow-sm"
           />
         </div>
         <div className="flex gap-4">
           <select 
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white outline-none focus:border-gold/50 transition-colors"
+            className="bg-white border border-gray-200 rounded-xl py-3 px-4 text-text-white outline-none focus:border-gold/50 transition-colors shadow-sm"
           >
             <option value="ALL">All Statuses</option>
             <option value="PENDING">Pending</option>
@@ -200,7 +200,7 @@ export default function AdminPayments() {
           <select 
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white outline-none focus:border-gold/50 transition-colors"
+            className="bg-white border border-gray-200 rounded-xl py-3 px-4 text-text-white outline-none focus:border-gold/50 transition-colors shadow-sm"
           >
             <option value="ALL">All Types</option>
             <option value="STUDIO">Studio Booking</option>
@@ -212,17 +212,17 @@ export default function AdminPayments() {
       {isLoading ? (
         <div className="checkout-spinner" style={{ margin: "100px auto" }}></div>
       ) : (
-        <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "12px", overflow: "hidden" }}>
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table style={{ width: "100%", minWidth: "800px", borderCollapse: "collapse", textAlign: "left" }}>
               <thead>
-                <tr style={{ background: "rgba(0,0,0,0.2)", borderBottom: "1px solid var(--border)" }}>
-                  <th style={{ padding: "16px", color: "var(--text-muted)", fontWeight: 600, fontSize: "0.85rem" }}>TRANSACTION REF</th>
-                  <th style={{ padding: "16px", color: "var(--text-muted)", fontWeight: 600, fontSize: "0.85rem" }}>CUSTOMER</th>
-                  <th style={{ padding: "16px", color: "var(--text-muted)", fontWeight: 600, fontSize: "0.85rem" }}>TYPE / DATE</th>
-                  <th style={{ padding: "16px", color: "var(--text-muted)", fontWeight: 600, fontSize: "0.85rem" }}>AMOUNT</th>
-                  <th style={{ padding: "16px", color: "var(--text-muted)", fontWeight: 600, fontSize: "0.85rem" }}>STATUS</th>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th style={{ padding: "16px", color: "#4b5563", fontWeight: 600, fontSize: "0.85rem" }}>TRANSACTION REF</th>
+                  <th style={{ padding: "16px", color: "#4b5563", fontWeight: 600, fontSize: "0.85rem" }}>CUSTOMER</th>
+                  <th style={{ padding: "16px", color: "#4b5563", fontWeight: 600, fontSize: "0.85rem" }}>TYPE / DATE</th>
+                  <th style={{ padding: "16px", color: "#4b5563", fontWeight: 600, fontSize: "0.85rem" }}>AMOUNT</th>
+                  <th style={{ padding: "16px", color: "#4b5563", fontWeight: 600, fontSize: "0.85rem" }}>STATUS</th>
                 </tr>
               </thead>
               <tbody>
@@ -240,11 +240,10 @@ export default function AdminPayments() {
                     <tr 
                       key={p.id} 
                       onClick={() => handleRowClick(p)}
-                      style={{ borderBottom: "1px solid var(--border)", transition: "background 0.2s", cursor: "pointer" }}
-                      className="hover:bg-white/5"
+                      className="border-b border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer text-text-white"
                     >
                       <td style={{ padding: "16px" }}>
-                        <div style={{ fontWeight: 600, color: "var(--text-light)" }}>{p.reference}</div>
+                        <div className="font-semibold">{p.reference}</div>
                         <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "4px" }}>
                           {p.method}
                         </div>
@@ -291,11 +290,11 @@ export default function AdminPayments() {
                 <div 
                   key={p.id} 
                   onClick={() => handleRowClick(p)}
-                  className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl p-4 flex flex-col gap-3 cursor-pointer hover:bg-white/5 transition-colors"
+                  className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 flex flex-col gap-3 cursor-pointer hover:bg-gray-50 transition-colors text-text-white"
                 >
-                  <div className="flex justify-between items-start border-b border-[rgba(255,255,255,0.05)] pb-3">
+                  <div className="flex justify-between items-start border-b border-gray-200 pb-3">
                     <div>
-                      <div className="font-semibold text-text-light text-sm">{p.reference}</div>
+                      <div className="font-semibold text-sm">{p.reference}</div>
                       <div className="text-[0.7rem] text-text-muted mt-0.5 uppercase tracking-wide">{p.method}</div>
                     </div>
                     <div className="text-right">

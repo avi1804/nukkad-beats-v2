@@ -34,12 +34,12 @@ export default function Studios() {
       maxGuests: 50,
       price: 1000,
       access: "Full",
-      features: ["LED Screen", "Tea Included", "Pro Mic Setup", "AC", "Photo Ready"],
+      features: ["LED Screen", "Water Included", "Pro Mic Setup", "AC", "Photo Ready"],
       icon: "🎤",
       image: "/images/studio1.png",
       badge: "Popular",
       badgeGradient: "bg-burgundy",
-      bgGradient: "bg-[rgba(0,0,0,0.2)]",
+      bgGradient: "bg-gray-100",
       glowGradient: "radial-gradient(ellipse at center, rgba(122, 30, 37, 0.4), transparent 70%)",
       delay: 0.1,
     },
@@ -50,12 +50,12 @@ export default function Studios() {
       maxGuests: 90,
       price: 1400,
       access: "Full",
-      features: ["LED Screen", "Tea Included", "Pro Mic Setup", "AC", "Party Setup"],
+      features: ["LED Screen", "Water Included", "Pro Mic Setup", "AC", "Party Setup"],
       icon: "🎶",
       image: "/images/studio2.png",
       badge: "XL Space",
       badgeGradient: "bg-[linear-gradient(135deg,#00b4d8,#f72585)]",
-      bgGradient: "bg-[linear-gradient(135deg,#0d1a2e,#1a0d2e)]",
+      bgGradient: "bg-gradient-to-br from-blue-50 to-indigo-50",
       glowGradient: "radial-gradient(ellipse at center, rgba(122, 30, 37, 0.4), transparent 70%)",
       delay: 0.2,
     },
@@ -91,7 +91,7 @@ export default function Studios() {
           <span className="inline-block text-[0.75rem] font-[600] tracking-[0.2em] uppercase text-gold mb-[12px] relative pl-[28px] before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[18px] before:h-[2px] before:bg-gold">
             Book Your Session
           </span>
-          <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] font-[800] leading-[1.15] mb-[16px]">
+          <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] font-[800] leading-[1.15] mb-[16px] text-text-white">
             Private <span className="gradient-text">Karaoke Studios</span>
           </h2>
           <p className="text-text-muted max-w-[520px] text-[0.95rem]">
@@ -110,12 +110,12 @@ export default function Studios() {
               maxGuests: dbStudio.capacity,
               price: dbStudio.pricePerHour,
               access: "Full",
-              features: ["LED Screen", "Tea Included", "Pro Mic Setup", "AC", isFirst ? "Photo Ready" : "Party Setup"],
+              features: ["LED Screen", "Water Included", "Pro Mic Setup", "AC", isFirst ? "Photo Ready" : "Party Setup"],
               image: dbStudio.image || (isFirst ? "/images/studio1.png" : "/images/studio2.png"),
               badge: isFirst ? "Popular" : "XL Space",
-              badgeGradient: isFirst ? "bg-burgundy" : "bg-[linear-gradient(135deg,#00b4d8,#f72585)]",
-              bgGradient: isFirst ? "bg-[rgba(0,0,0,0.2)]" : "bg-[linear-gradient(135deg,#0d1a2e,#1a0d2e)]",
-              glowGradient: "radial-gradient(ellipse at center, rgba(122, 30, 37, 0.4), transparent 70%)",
+              badgeGradient: isFirst ? "bg-burgundy text-white" : "bg-[linear-gradient(135deg,#00b4d8,#f72585)] text-white",
+              bgGradient: isFirst ? "bg-gray-100" : "bg-gradient-to-br from-blue-50 to-indigo-50",
+              glowGradient: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.4), transparent 70%)",
               delay: 0.1 * (idx + 1),
             };
 
@@ -126,32 +126,30 @@ export default function Studios() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: studio.delay }}
                 viewport={{ once: true, margin: "-40px" }}
-                className="rounded-[24px] overflow-hidden border border-glass-border bg-glass-bg backdrop-blur-[16px] transition-all duration-500 ease-out cursor-pointer relative group hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(216,154,43,0.15)] hover:border-[rgba(216,154,43,0.3)] flex flex-col"
+                className="rounded-[24px] overflow-hidden bg-white border border-gray-200 transition-all duration-500 ease-out cursor-pointer relative group hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:border-gold/30 flex flex-col shadow-sm"
               >
                 <div
-                  className={`h-[260px] relative overflow-hidden flex items-center justify-center bg-[#0a0a0a]`}
+                  className={`h-[260px] relative overflow-hidden flex items-center justify-center bg-gray-100`}
                 >
                   <Image
                     src={studio.image}
                     alt={studio.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(13,11,18,0.9)] via-[rgba(13,11,18,0.2)] to-transparent z-10" />
+                  {/* Subtle shadow at the bottom for smooth transition to content area */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-t from-white to-transparent z-10" />
+                  
                   <div
-                    className="absolute inset-0 opacity-0 transition-opacity duration-400 group-hover:opacity-100 z-10 mix-blend-color-dodge"
-                    style={{ background: studio.glowGradient }}
-                  />
-                  <div
-                    className={`absolute top-[16px] right-[16px] ${studio.badgeGradient} text-white text-[0.75rem] font-[700] px-[14px] py-[5px] rounded-[100px] z-20`}
+                    className={`absolute top-[16px] right-[16px] ${studio.badgeGradient} text-[0.75rem] font-[700] px-[14px] py-[5px] rounded-[100px] z-20 shadow-md`}
                   >
                     {studio.badge}
                   </div>
                 </div>
 
-                <div className="p-[32px]">
-                  <h3 className="font-heading text-[1.5rem] font-[800] mb-[6px]">{studio.name}</h3>
+                <div className="p-[32px] relative z-20 -mt-[40px]">
+                  <h3 className="font-heading text-[1.5rem] font-[800] mb-[6px] text-text-white">{studio.name}</h3>
                   <p className="text-text-muted text-[0.88rem] mb-[24px]">{studio.tagline}</p>
 
                   <div className="flex gap-[24px] mb-[24px]">
@@ -173,7 +171,7 @@ export default function Studios() {
                     {studio.features.map((feature, i) => (
                       <span
                         key={i}
-                        className="text-[0.78rem] px-[12px] py-[5px] rounded-[100px] bg-[rgba(255,255,255,0.04)] border border-glass-border text-text-light flex items-center gap-[6px] transition-all duration-300 group-hover:bg-[rgba(255,255,255,0.08)] group-hover:border-[rgba(255,255,255,0.15)] group-hover:text-white before:content-['✨'] before:text-[0.7rem]"
+                        className="text-[0.78rem] px-[12px] py-[5px] rounded-[100px] bg-gray-50 border border-gray-200 text-gray-700 flex items-center gap-[6px] transition-all duration-300 group-hover:bg-gray-100 group-hover:border-gold/40 group-hover:text-gray-900 before:content-['✨'] before:text-[0.7rem] shadow-sm"
                       >
                         {feature}
                       </span>
@@ -181,7 +179,7 @@ export default function Studios() {
                   </div>
 
                   <button
-                    className="w-full flex items-center justify-center gap-[8px] px-[24px] py-[12px] rounded-[14px] font-body text-[0.9rem] font-[600] transition-all duration-500 relative overflow-hidden text-center cursor-pointer bg-[#FFD166] text-[#210B2C] border border-[rgba(255,209,102,0.15)] shadow-[0_8px_24px_rgba(255,209,102,0.18)] hover:bg-[#F4C852] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(255,209,102,0.25)] active:scale-95"
+                    className="btn btn-primary w-full px-[24px] py-[12px] text-[0.9rem]"
                     onClick={(e) => {
                       e.stopPropagation();
                       if (!isLoggedIn) {
@@ -212,10 +210,10 @@ export default function Studios() {
               key={i}
               whileHover={{ y: -5, scale: 1.02 }}
               transition={{ duration: 0.3 }}
-              className="bg-glass-bg border border-glass-border backdrop-blur-[20px] rounded-[20px] p-[24px] md:p-[28px] text-center shadow-lg"
+              className="bg-white border border-gray-200 rounded-[20px] p-[24px] md:p-[28px] text-center shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
             >
               <div className="text-[2rem] mb-[12px]">{feature.icon}</div>
-              <div className="font-[700] font-heading mb-[6px]">{feature.title}</div>
+              <div className="font-[700] font-heading mb-[6px] text-text-white">{feature.title}</div>
               <div className="text-[0.82rem] text-text-muted">{feature.desc}</div>
             </motion.div>
           ))}

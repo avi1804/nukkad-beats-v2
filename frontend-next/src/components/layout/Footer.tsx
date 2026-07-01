@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <>
-      <footer className="pt-[80px] pb-[40px] border-t border-glass-border bg-bg-dark">
+      <footer className="pt-[80px] pb-[40px] border-t border-glass-border bg-gray-50">
         <div className="max-w-[1200px] mx-auto px-[24px]">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[40px] lg:gap-[60px] mb-[60px]">
             <div className="flex flex-col gap-[20px]">
@@ -18,7 +18,7 @@ export default function Footer() {
                   width={200}
                   height={60}
                   style={{ width: "auto" }}
-                  className="h-[60px] w-auto max-w-[200px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-transform duration-300 ease-spring hover:scale-105"
+                  className="h-[60px] w-auto max-w-[200px] object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-spring hover:scale-105"
                 />
               </Link>
               <p className="text-text-muted text-[0.9rem] leading-[1.6]">
@@ -29,7 +29,7 @@ export default function Footer() {
                 <a
                   href="https://instagram.com"
                   target="_blank"
-                  className="w-[40px] h-[40px] rounded-[12px] bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-bg-deep hover:border-gold"
+                  className="w-[40px] h-[40px] rounded-[12px] bg-white border border-glass-border flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-white hover:border-gold shadow-sm"
                   aria-label="Instagram"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -41,7 +41,7 @@ export default function Footer() {
                 <a
                   href="https://facebook.com"
                   target="_blank"
-                  className="w-[40px] h-[40px] rounded-[12px] bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-bg-deep hover:border-gold"
+                  className="w-[40px] h-[40px] rounded-[12px] bg-white border border-glass-border flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-white hover:border-gold shadow-sm"
                   aria-label="Facebook"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -51,7 +51,7 @@ export default function Footer() {
                 <a
                   href="https://youtube.com"
                   target="_blank"
-                  className="w-[40px] h-[40px] rounded-[12px] bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-bg-deep hover:border-gold"
+                  className="w-[40px] h-[40px] rounded-[12px] bg-white border border-glass-border flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-white hover:border-gold shadow-sm"
                   aria-label="YouTube"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -62,7 +62,7 @@ export default function Footer() {
                 <a
                   href="https://whatsapp.com"
                   target="_blank"
-                  className="w-[40px] h-[40px] rounded-[12px] bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-bg-deep hover:border-gold"
+                  className="w-[40px] h-[40px] rounded-[12px] bg-white border border-glass-border flex items-center justify-center text-text-light transition-all duration-300 hover:-translate-y-[2px] hover:bg-gold hover:text-white hover:border-gold shadow-sm"
                   aria-label="WhatsApp"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -73,52 +73,52 @@ export default function Footer() {
             </div>
 
             <div className="flex flex-col">
-              <h4 className="font-heading text-[1.1rem] font-[700] mb-[20px] text-white">
+              <h4 className="font-heading text-[1.1rem] font-[700] mb-[20px] text-text-white">
                 Quick Links
               </h4>
               <div className="flex flex-col gap-[12px]">
-                <Link href="#home" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Home</Link>
-                <Link href="#studios" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Book a Studio</Link>
-                <Link href="#cafe" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Café Menu</Link>
-                <Link href="#gallery" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Gallery</Link>
-                <Link href="#testimonials" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Reviews</Link>
-                <Link href="/about" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">About Us</Link>
-                <Link href="/contact" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Contact</Link>
+                <Link href="#home" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Home</Link>
+                <Link href="#studios" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Book a Studio</Link>
+                <Link href="#cafe" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Café Menu</Link>
+                <Link href="#gallery" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Gallery</Link>
+                <Link href="#testimonials" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Reviews</Link>
+                <Link href="/about" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">About Us</Link>
+                <Link href="/contact" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Contact</Link>
               </div>
             </div>
 
             <div className="flex flex-col">
-              <h4 className="font-heading text-[1.1rem] font-[700] mb-[20px] text-white">
+              <h4 className="font-heading text-[1.1rem] font-[700] mb-[20px] text-text-white">
                 Studios
               </h4>
               <div className="flex flex-col gap-[12px]">
-                <Link href="#studios" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">NAMAS Studio 1</Link>
-                <Link href="#studios" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">NAMAS Studio 2</Link>
-                <Link href="#" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Birthday Packages</Link>
-                <Link href="#" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Corporate Events</Link>
-                <Link href="#" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">Group Bookings</Link>
+                <Link href="#studios" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">NAMAS Studio 1</Link>
+                <Link href="#studios" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">NAMAS Studio 2</Link>
+                <Link href="#" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Birthday Packages</Link>
+                <Link href="#" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Corporate Events</Link>
+                <Link href="#" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">Group Bookings</Link>
               </div>
             </div>
 
             <div className="flex flex-col">
-              <h4 className="font-heading text-[1.1rem] font-[700] mb-[20px] text-white">
+              <h4 className="font-heading text-[1.1rem] font-[700] mb-[20px] text-text-white">
                 Contact Info
               </h4>
               <div className="flex flex-col gap-[12px]">
-                <a href="tel:+919644397658" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">📞 +91 96443 97658</a>
-                <a href="mailto:nukkadbeatsofficial@gmail.com" className="text-text-muted text-[0.85rem] transition-colors hover:text-white">✉️ nukkadbeatsofficial@gmail.com</a>
+                <a href="tel:+919644397658" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">📞 +91 96443 97658</a>
+                <a href="mailto:nukkadbeatsofficial@gmail.com" className="text-text-muted text-[0.85rem] transition-colors hover:text-text-white">✉️ nukkadbeatsofficial@gmail.com</a>
                 <span className="text-text-muted text-[0.85rem]">📍 102, Sigma Legacy, Ambawadi, Ahmedabad 380015</span>
                 <span className="text-text-muted text-[0.85rem]">🕐 Open Daily 11AM–11PM</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-[30px] border-t border-[rgba(255,255,255,0.05)] flex flex-col md:flex-row items-center justify-between gap-[20px] text-text-muted text-[0.85rem]">
+          <div className="pt-[30px] border-t border-glass-border flex flex-col md:flex-row items-center justify-between gap-[20px] text-text-muted text-[0.85rem]">
             <p>© 2024 Nukkad Beats. All rights reserved. Made with 🎵</p>
             <div className="flex gap-[20px]">
-              <Link href="/privacy" className="transition-colors hover:text-[#BC96E6]">Privacy Policy</Link>
-              <Link href="/terms" className="transition-colors hover:text-[#BC96E6]">Terms & Conditions</Link>
-              <Link href="/refunds" className="transition-colors hover:text-[#BC96E6]">Refund Policy</Link>
+              <Link href="/privacy" className="transition-colors hover:text-gold">Privacy Policy</Link>
+              <Link href="/terms" className="transition-colors hover:text-gold">Terms & Conditions</Link>
+              <Link href="/refunds" className="transition-colors hover:text-gold">Refund Policy</Link>
             </div>
           </div>
         </div>

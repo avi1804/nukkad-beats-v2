@@ -120,13 +120,13 @@ export default function MyBookingsPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#0B0B0F] text-text-light font-body pt-[100px] flex flex-col">
+      <div className="min-h-screen bg-bg-deep text-text-light font-body pt-[100px] flex flex-col">
         <Navbar />
         <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6 border border-white/10">
-            <Calendar size={32} className="text-white/40" />
+          <div className="w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center mb-6 border border-gray-200">
+            <Calendar size={32} className="text-gray-400" />
           </div>
-          <h2 className="font-heading text-3xl font-bold text-white mb-3">Access Restricted</h2>
+          <h2 className="font-heading text-3xl font-bold text-text-white mb-3">Access Restricted</h2>
           <p className="text-text-muted mb-8 max-w-md">
             You need to be logged in to view your bookings. Please sign in to continue or return to the home page.
           </p>
@@ -139,7 +139,7 @@ export default function MyBookingsPage() {
             </button>
             <Link 
               href="/"
-              className="px-8 py-3 rounded-full bg-white/5 text-white font-medium border border-white/10 transition-all hover:bg-white/10 hover:-translate-y-1"
+              className="px-8 py-3 rounded-full bg-gray-50 text-text-light font-medium border border-gray-200 transition-all hover:bg-gray-100 hover:-translate-y-1"
             >
               Back to Home
             </Link>
@@ -150,7 +150,7 @@ export default function MyBookingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0B0F] text-text-light font-body pt-[100px]">
+    <div className="min-h-screen bg-bg-deep text-text-light font-body pt-[100px]">
       <Navbar />
       
       <main className="max-w-[1000px] mx-auto px-6 py-12">
@@ -162,18 +162,18 @@ export default function MyBookingsPage() {
           <Link href="/" className="inline-flex items-center gap-[8px] text-text-light hover:text-gold transition-colors duration-300 font-[500] mb-[24px]">
             <span>←</span> Back to Home
           </Link>
-          <h1 className="font-heading text-4xl font-bold text-white mb-2">My Bookings</h1>
+          <h1 className="font-heading text-4xl font-bold text-text-white mb-2">My Bookings</h1>
           <p className="text-text-muted">Manage your premium karaoke experiences.</p>
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex gap-8 border-b border-white/10 mb-8 relative">
+        <div className="flex gap-8 border-b border-gray-200 mb-8 relative">
           {(["upcoming", "completed", "cancelled"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`pb-4 text-sm font-semibold capitalize transition-colors relative ${
-                activeTab === tab ? "text-gold" : "text-text-muted hover:text-white"
+                activeTab === tab ? "text-gold" : "text-text-muted hover:text-text-white"
               }`}
             >
               {tab}
@@ -199,21 +199,21 @@ export default function MyBookingsPage() {
                 key={booking.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 backdrop-blur-md transition-all hover:bg-white/10 hover:border-gold/30 flex flex-col md:flex-row shadow-lg"
+                className="group relative overflow-hidden rounded-[24px] border border-gray-200 bg-white transition-all hover:bg-gray-50 hover:border-gold/30 flex flex-col md:flex-row shadow-sm"
               >
                 <div className="p-[24px] flex-1 space-y-4">
                   <div className="flex items-center justify-between gap-3">
                     <span className={`px-3 py-1 text-xs font-bold rounded-[8px] uppercase tracking-wider ${
-                      booking.bookingStatus === 'CONFIRMED' ? 'bg-[#2F6B52]/20 text-[#4CAF50] border border-[#4CAF50]/20' :
-                      booking.bookingStatus === 'PENDING' ? 'bg-[#FFD166]/10 text-[#FFD166] border border-[#FFD166]/20' :
-                      'bg-[#BC96E6]/10 text-[#BC96E6] border border-[#BC96E6]/20'
+                      booking.bookingStatus === 'CONFIRMED' ? 'bg-[#2F6B52]/10 text-[#2F6B52] border border-[#2F6B52]/20' :
+                      booking.bookingStatus === 'PENDING' ? 'bg-gold/10 text-[#C5A030] border border-gold/20' :
+                      'bg-purple/10 text-[#8B5CF6] border border-purple/20'
                     }`}>
                       {booking.bookingStatus}
                     </span>
-                    <span className="text-[0.75rem] font-mono text-white/50 tracking-wider">ID: {booking.bookingReference}</span>
+                    <span className="text-[0.75rem] font-mono text-text-muted tracking-wider">ID: {booking.bookingReference}</span>
                   </div>
 
-                  <h3 className="font-heading text-[1.8rem] md:text-2xl font-[800] text-white tracking-tight">{booking.studioName}</h3>
+                  <h3 className="font-heading text-[1.8rem] md:text-2xl font-[800] text-text-white tracking-tight">{booking.studioName}</h3>
 
                   <div className="grid grid-cols-2 gap-y-[16px] gap-x-[12px] text-[0.85rem] mt-[16px]">
                     <div className="flex items-center gap-[8px] text-text-muted">
@@ -244,20 +244,20 @@ export default function MyBookingsPage() {
                 {/* Ticket Divider (Dashed with Notches) */}
                 <div className="relative w-full md:w-px h-[24px] md:h-auto flex items-center justify-center -my-[12px] md:my-0 md:-mx-[12px] z-10">
                   {/* Mobile Notches */}
-                  <div className="absolute left-[-12px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-[#0B0B0F] rounded-full md:hidden border-r border-white/10"></div>
-                  <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-[#0B0B0F] rounded-full md:hidden border-l border-white/10"></div>
+                  <div className="absolute left-[-12px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-bg-deep rounded-full md:hidden border-r border-gray-200"></div>
+                  <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 w-[24px] h-[24px] bg-bg-deep rounded-full md:hidden border-l border-gray-200"></div>
                   
                   {/* Desktop Notches */}
-                  <div className="absolute top-[-12px] left-1/2 -translate-x-1/2 w-[24px] h-[24px] bg-[#0B0B0F] rounded-full hidden md:block border-b border-white/10"></div>
-                  <div className="absolute bottom-[-12px] left-1/2 -translate-x-1/2 w-[24px] h-[24px] bg-[#0B0B0F] rounded-full hidden md:block border-t border-white/10"></div>
+                  <div className="absolute top-[-12px] left-1/2 -translate-x-1/2 w-[24px] h-[24px] bg-bg-deep rounded-full hidden md:block border-b border-gray-200"></div>
+                  <div className="absolute bottom-[-12px] left-1/2 -translate-x-1/2 w-[24px] h-[24px] bg-bg-deep rounded-full hidden md:block border-t border-gray-200"></div>
 
-                  <div className="w-[calc(100%-48px)] md:w-full h-px md:h-[calc(100%-48px)] border-t border-dashed md:border-t-0 md:border-l border-white/20"></div>
+                  <div className="w-[calc(100%-48px)] md:w-full h-px md:h-[calc(100%-48px)] border-t border-dashed md:border-t-0 md:border-l border-gray-300"></div>
                 </div>
 
-                <div className="p-[24px] flex flex-col justify-between items-start md:items-end bg-white/[0.02] md:bg-transparent min-w-[200px]">
+                <div className="p-[24px] flex flex-col justify-between items-start md:items-end bg-gray-50 md:bg-transparent min-w-[200px]">
                     <div className="text-left md:text-right w-full mb-4 md:mb-0">
-                      <p className="text-sm text-text-muted mb-1">Total Amount</p>
-                      <p className="font-mono text-2xl font-bold text-white">₹{booking.totalAmount}</p>
+                      <p className="text-sm text-text-muted mb-1 font-medium">Total Amount</p>
+                      <p className="font-mono text-2xl font-bold text-text-white">₹{booking.totalAmount}</p>
                     </div>
 
                     {activeTab === "upcoming" ? (
@@ -271,7 +271,7 @@ export default function MyBookingsPage() {
                       <div className="flex gap-2 w-full md:w-auto">
                         <button
                           onClick={() => handleViewTicket(booking)}
-                          className="flex-1 md:flex-none px-4 py-2.5 rounded-xl bg-white/5 text-white font-medium text-sm border border-white/10 transition-all hover:bg-white/10"
+                          className="flex-1 md:flex-none px-4 py-2.5 rounded-xl bg-gray-100 text-text-white font-medium text-sm border border-gray-200 transition-all hover:bg-gray-200"
                         >
                           Receipt
                         </button>
@@ -293,10 +293,10 @@ export default function MyBookingsPage() {
             animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center py-24 text-center"
           >
-            <div className="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mb-6">
-              <Calendar size={40} className="text-white/20" />
+            <div className="w-24 h-24 rounded-full bg-gray-50 flex items-center justify-center mb-6 border border-gray-200">
+              <Calendar size={40} className="text-gray-300" />
             </div>
-            <h3 className="font-heading text-2xl font-bold text-white mb-3">
+            <h3 className="font-heading text-2xl font-bold text-text-white mb-3">
               No {activeTab} bookings found
             </h3>
             <p className="text-text-muted mb-8 max-w-md">

@@ -83,15 +83,15 @@ export default function QRPaymentPage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-glass-bg border border-glass-border rounded-[24px] p-[32px] md:p-[48px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] relative overflow-hidden"
+          className="bg-white border border-gray-200 rounded-[24px] p-[32px] md:p-[48px] shadow-lg relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-gold via-[#FFD166] to-gold"></div>
 
           <div className="flex flex-col md:flex-row gap-[40px] items-center md:items-start">
             {/* Left: QR Code */}
             <div className="flex flex-col items-center flex-1">
-              <h3 className="text-white font-[600] text-[1.2rem] mb-[24px]">Scan to Pay</h3>
-              <div className="bg-white p-[12px] rounded-[16px] shadow-[0_10px_30px_rgba(255,209,102,0.15)] mb-[24px] w-full max-w-[260px] aspect-square flex items-center justify-center overflow-hidden">
+              <h3 className="text-text-white font-[600] text-[1.2rem] mb-[24px]">Scan to Pay</h3>
+              <div className="bg-white p-[12px] rounded-[16px] border border-gray-200 shadow-sm mb-[24px] w-full max-w-[260px] aspect-square flex items-center justify-center overflow-hidden">
                 <img
                   src="/images/qr.jpg"
                   alt="Scan to Pay"
@@ -100,8 +100,8 @@ export default function QRPaymentPage() {
               </div>
               <div className="flex flex-col items-center gap-[8px] mb-[24px] w-full">
                 <span className="text-text-muted text-[0.9rem]">Or pay via UPI ID</span>
-                <div className="flex items-center gap-[12px] bg-white/5 border border-white/10 rounded-[12px] py-[10px] px-[16px] w-full max-w-[240px] justify-between">
-                  <span className="text-white font-[600] tracking-wider">{upiId}</span>
+                <div className="flex items-center gap-[12px] bg-gray-50 border border-gray-200 rounded-[12px] py-[10px] px-[16px] w-full max-w-[240px] justify-between">
+                  <span className="text-text-white font-[600] tracking-wider">{upiId}</span>
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(upiId);
@@ -117,21 +117,21 @@ export default function QRPaymentPage() {
 
             {/* Right: Order Summary */}
             <div className="flex-1 w-full flex flex-col">
-              <div className="bg-white/5 border border-white/10 rounded-[16px] p-[24px] flex-1">
-                <h3 className="text-white font-[700] text-[1.1rem] mb-[20px] border-b border-white/10 pb-[12px]">Order Summary</h3>
+              <div className="bg-gray-50 border border-gray-200 rounded-[16px] p-[24px] flex-1">
+                <h3 className="text-text-white font-[700] text-[1.1rem] mb-[20px] border-b border-gray-200 pb-[12px]">Order Summary</h3>
 
                 <div className="flex flex-col gap-[12px] mb-[24px]">
                   <div className="flex justify-between">
-                    <span className="text-text-light">Order ID</span>
-                    <span className="font-[600] text-white">{order.orderReference}</span>
+                    <span className="text-text-muted">Order ID</span>
+                    <span className="font-[600] text-text-white">{order.orderReference}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-text-light">Customer</span>
-                    <span className="font-[600] text-white">{user?.fullName || "Guest"}</span>
+                    <span className="text-text-muted">Customer</span>
+                    <span className="font-[600] text-text-white">{user?.fullName || "Guest"}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-text-light">Items</span>
-                    <span className="font-[600] text-white">
+                    <span className="text-text-muted">Items</span>
+                    <span className="font-[600] text-text-white">
                       {order.items?.length || 0} {order.items?.length === 1 ? 'item' : 'items'}
                     </span>
                   </div>
@@ -141,32 +141,32 @@ export default function QRPaymentPage() {
                   {order.items?.map((item: any) => (
                     <div key={item.id} className="flex justify-between items-center text-[0.9rem]">
                       <span className="text-text-muted flex-1 pr-4 truncate">{item.quantity}x {item.product?.name}</span>
-                      <span className="text-white">₹{item.price * item.quantity}</span>
+                      <span className="text-text-white font-[600]">₹{item.price * item.quantity}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-auto pt-[20px] border-t border-white/10 flex justify-between items-center">
-                  <span className="text-white font-[600] text-[1.1rem]">Total Amount</span>
+                <div className="mt-auto pt-[20px] border-t border-gray-200 flex justify-between items-center">
+                  <span className="text-text-white font-[600] text-[1.1rem]">Total Amount</span>
                   <span className="text-gold font-[800] text-[1.5rem]">₹{amount}</span>
                 </div>
               </div>
 
               {/* Instructions */}
-              <div className="mt-[24px] text-[0.85rem] text-text-muted bg-burgundy/10 border border-burgundy/20 rounded-[12px] p-[16px]">
+              <div className="mt-[24px] text-[0.85rem] text-blue-800 bg-blue-50 border border-blue-200 rounded-[12px] p-[16px]">
                 <p className="flex items-start gap-[8px] mb-[8px]">
-                  <span className="text-gold mt-[2px]">ℹ️</span>
+                  <span className="text-blue-500 mt-[2px]">ℹ️</span>
                   <span>Please keep this window open until you have completed the payment on your UPI app.</span>
                 </p>
                 <p className="flex items-start gap-[8px]">
-                  <span className="text-gold mt-[2px]">✓</span>
+                  <span className="text-blue-500 mt-[2px]">✓</span>
                   <span>Your order will be confirmed by an admin after verifying the payment.</span>
                 </p>
               </div>
 
               <button
                 onClick={() => router.push("/my-orders")}
-                className="w-full mt-[24px] bg-gold text-[#210B2C] font-[700] py-[14px] rounded-[12px] hover:bg-[#F4C852] transition-colors shadow-[0_8px_20px_rgba(216,154,43,0.3)] hover:shadow-[0_12px_25px_rgba(216,154,43,0.4)]"
+                className="w-full mt-[24px] bg-gold text-white font-[700] py-[14px] rounded-[12px] hover:bg-[#D89A2B] transition-colors shadow-md hover:shadow-lg"
               >
                 I have done my payment
               </button>

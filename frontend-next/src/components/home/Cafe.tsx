@@ -55,7 +55,7 @@ export default function Cafe() {
   );
 
   return (
-    <section className="py-[70px] md:py-[100px]" id="cafe">
+    <section className="py-[70px] md:py-[100px] bg-bg-deep" id="cafe">
       <div className="max-w-[1200px] mx-auto px-[24px]">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
@@ -66,7 +66,7 @@ export default function Cafe() {
           <span className="inline-block text-[0.75rem] font-[600] tracking-[0.2em] uppercase text-gold mb-[12px] relative pl-[28px] before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[18px] before:h-[2px] before:bg-gold">
             Café Menu
           </span>
-          <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] font-[800] leading-[1.15] mb-[16px]">
+          <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] font-[800] leading-[1.15] mb-[16px] text-text-white">
             Fuel Your <span className="gradient-text">Performance</span>
           </h2>
           <p className="text-text-muted max-w-[520px] text-[0.95rem]">
@@ -75,7 +75,7 @@ export default function Cafe() {
           </p>
           
           {activeBookingId && (
-            <div className="mt-[24px] bg-[rgba(255,209,102,0.1)] border border-[rgba(255,209,102,0.3)] rounded-[16px] p-[20px] flex flex-col md:flex-row items-start md:items-center justify-between gap-[16px]">
+            <div className="mt-[24px] bg-[rgba(212,175,55,0.1)] border border-[rgba(212,175,55,0.3)] rounded-[16px] p-[20px] flex flex-col md:flex-row items-start md:items-center justify-between gap-[16px]">
               <div>
                 <h3 className="text-gold font-[700] flex items-center gap-[8px] mb-[4px]">
                   <span>🎤</span> Studio Booking Detected
@@ -88,7 +88,7 @@ export default function Cafe() {
                 onClick={() => {
                   router.push(`/payment/booking/${activeBookingId}`);
                 }}
-                className="whitespace-nowrap px-[16px] py-[8px] rounded-[10px] bg-white/10 hover:bg-white/20 text-white font-[600] text-[0.85rem] transition-colors border border-white/20"
+                className="whitespace-nowrap px-[16px] py-[8px] rounded-[10px] bg-white hover:bg-gray-50 text-text-white font-[600] text-[0.85rem] transition-colors border border-glass-border shadow-sm"
               >
                 Skip Food → Pay Now
               </button>
@@ -105,8 +105,8 @@ export default function Cafe() {
                 className={cn(
                   "px-[20px] py-[8px] rounded-[100px] font-[500] text-[0.9rem] border transition-all duration-300 capitalize cursor-pointer",
                   filter === cat
-                    ? "bg-text-white text-bg-deep border-transparent"
-                    : "bg-transparent text-text-light border-glass-border hover:bg-glass-bg hover:text-white hover:border-[rgba(255,255,255,0.2)]"
+                    ? "bg-text-white text-bg-deep border-transparent shadow-sm"
+                    : "bg-transparent text-text-light border-glass-border hover:bg-glass-bg hover:text-text-white hover:border-glass-border shadow-sm"
                 )}
               >
                 <span className="whitespace-nowrap">{cat.replace("-", " ")}</span>
@@ -148,13 +148,14 @@ function CafeCard({ item }: { item: any }) {
     addToCart(item, qty);
     toast.success(`Added ${qty} ${item.name} to cart!`, {
       style: {
-        background: '#1A1A1A',
-        color: '#fff',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        borderRadius: '12px'
+        background: '#FFFFFF',
+        color: '#111827',
+        border: '1px solid #E7E7E7',
+        borderRadius: '12px',
+        boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)'
       },
       iconTheme: {
-        primary: '#C5A059',
+        primary: '#D4AF37',
         secondary: '#fff',
       },
     });
@@ -168,9 +169,9 @@ function CafeCard({ item }: { item: any }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.4 }}
-      className="bg-[rgba(255,255,255,0.02)] md:bg-glass-bg border border-white/5 md:border-glass-border rounded-[20px] overflow-hidden flex flex-row md:flex-col transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.2)] group"
+      className="bg-white md:bg-glass-bg border border-glass-border rounded-[20px] overflow-hidden flex flex-row md:flex-col transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] hover:border-gold/30 group"
     >
-      <div className="h-[140px] w-[130px] md:h-[180px] md:w-full relative overflow-hidden bg-black/40 shrink-0">
+      <div className="h-[140px] w-[130px] md:h-[180px] md:w-full relative overflow-hidden bg-gray-50 shrink-0">
         <img
           src={item.image || "/images/menu/masala_chai.png"}
           alt={item.name}
@@ -188,7 +189,7 @@ function CafeCard({ item }: { item: any }) {
         )}
       </div>
       <div className="p-[14px] md:p-[20px] flex flex-col flex-1">
-        <div className="font-heading font-[700] text-[1rem] md:text-[1.1rem] mb-[4px] md:line-clamp-2 md:min-h-[2.8rem]">
+        <div className="font-heading font-[700] text-[1rem] md:text-[1.1rem] mb-[4px] md:line-clamp-2 md:min-h-[2.8rem] text-text-white">
           {item.name}
         </div>
         <div className="text-[0.7rem] md:text-[0.78rem] text-text-muted mb-[8px] md:mb-[16px] leading-[1.4] flex-1 line-clamp-2 md:line-clamp-3">
@@ -201,29 +202,29 @@ function CafeCard({ item }: { item: any }) {
           </span>
         </div>
         <div className="flex items-center justify-between mt-auto md:flex-col md:items-stretch md:gap-[16px]">
-          <div className="font-heading font-[800] text-[1rem] md:text-[1.25rem]">
+          <div className="font-heading font-[800] text-[1rem] md:text-[1.25rem] text-text-white">
             ₹{item.price}
           </div>
           <div className="flex flex-col md:flex-row md:items-center md:gap-[10px] md:w-full">
-            <div className="hidden md:flex items-center justify-between bg-[rgba(255,255,255,0.05)] rounded-[10px] border border-glass-border overflow-hidden min-w-[90px] h-[40px] px-[4px]">
+            <div className="hidden md:flex items-center justify-between bg-gray-50 rounded-[10px] border border-glass-border overflow-hidden min-w-[90px] h-[40px] px-[4px]">
               <button
                 onClick={() => setQty(Math.max(1, qty - 1))}
-                className="w-[28px] h-[28px] flex items-center justify-center bg-transparent border-none text-text-light cursor-pointer transition-colors hover:bg-[rgba(255,255,255,0.1)] hover:text-white rounded-[6px]"
+                className="w-[28px] h-[28px] flex items-center justify-center bg-transparent border-none text-text-light cursor-pointer transition-colors hover:bg-gray-200 hover:text-text-white rounded-[6px]"
               >
                 −
               </button>
-              <span className="w-[20px] text-center text-[0.85rem] font-[600]">
+              <span className="w-[20px] text-center text-[0.85rem] font-[600] text-text-white">
                 {qty}
               </span>
               <button
                 onClick={() => setQty(qty + 1)}
-                className="w-[28px] h-[28px] flex items-center justify-center bg-transparent border-none text-text-light cursor-pointer transition-colors hover:bg-[rgba(255,255,255,0.1)] hover:text-white rounded-[6px]"
+                className="w-[28px] h-[28px] flex items-center justify-center bg-transparent border-none text-text-light cursor-pointer transition-colors hover:bg-gray-200 hover:text-text-white rounded-[6px]"
               >
                 +
               </button>
             </div>
             <button
-              className="px-[16px] py-[8px] md:flex-1 md:py-[0] md:h-[40px] rounded-[10px] md:rounded-[12px] bg-[rgba(255,209,102,0.15)] border border-[rgba(255,209,102,0.2)] text-gold md:text-text-light font-[600] text-[0.75rem] md:text-[0.85rem] transition-all duration-500 hover:bg-gold hover:text-bg-deep hover:shadow-lg active:scale-95 cursor-pointer"
+              className="px-[16px] py-[8px] md:flex-1 md:py-[0] md:h-[40px] rounded-[10px] md:rounded-[12px] bg-gold/10 border border-gold/20 text-gold font-[600] text-[0.75rem] md:text-[0.85rem] transition-all duration-500 hover:bg-gold hover:text-white hover:shadow-lg active:scale-95 cursor-pointer"
               onClick={handleAddToCart}
             >
               <span className="md:hidden">ADD</span>
