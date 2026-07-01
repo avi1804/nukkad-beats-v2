@@ -194,7 +194,7 @@ export default function BookingQRPaymentPage() {
               </div>
 
               <button
-                onClick={() => router.push("/my-orders")}
+                onClick={() => router.push("/my-bookings")}
                 className="w-full mt-[24px] bg-gold text-white font-[700] py-[14px] rounded-[12px] hover:bg-[#D89A2B] transition-colors shadow-md hover:shadow-lg"
               >
                 I have done my payment

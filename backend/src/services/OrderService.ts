@@ -81,37 +81,6 @@ export class OrderService {
       TelegramService.sendOfflinePaymentRequest('Cafe Order', order.orderReference, order.totalAmount, order.user);
     }
 
-    // Simulate real-world order progression for demo purposes
-    // This allows users to track their order live on the frontend without needing an admin dashboard
-    setTimeout(async () => {
-      try { 
-        await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'PREPARING' } }); 
-        emitEvent(`user:${userId}`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'PREPARING', updatedAt: new Date() });
-        emitEvent(`role:kitchen`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'PREPARING', updatedAt: new Date() });
-        emitEvent(`role:admin`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'PREPARING', updatedAt: new Date() });
-        emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Order Update', message: `Your order is now being prepared.`, type: 'info' });
-      } catch (e) {}
-    }, 10000); // 10s to PREPARING
-
-    setTimeout(async () => {
-      try { 
-        await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'READY' } }); 
-        emitEvent(`user:${userId}`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'READY', updatedAt: new Date() });
-        emitEvent(`role:kitchen`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'READY', updatedAt: new Date() });
-        emitEvent(`role:admin`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'READY', updatedAt: new Date() });
-        emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Order Ready', message: `Your order is ready!`, type: 'success' });
-      } catch (e) {}
-    }, 20000); // 20s to READY
-
-    setTimeout(async () => {
-      try { 
-        await prisma.order.update({ where: { id: order.id }, data: { orderStatus: 'DELIVERED' } }); 
-        emitEvent(`user:${userId}`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'DELIVERED', updatedAt: new Date() });
-        emitEvent(`role:kitchen`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'DELIVERED', updatedAt: new Date() });
-        emitEvent(`role:admin`, ORDER_STATUS_UPDATED, { orderId: order.id, status: 'DELIVERED', updatedAt: new Date() });
-        emitEvent(`user:${userId}`, NOTIFICATION_NEW, { userId, title: 'Order Delivered', message: `Enjoy your meal!`, type: 'success' });
-      } catch (e) {}
-    }, 30000); // 30s to DELIVERED
 
     return order;
   }
